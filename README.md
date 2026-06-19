@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BodyFormer — Marketing Website
 
-## Getting Started
+Landing page for **BodyFormer**, the competitive body-growth tracking app.
+Built with **Next.js (App Router) + TypeScript + Tailwind CSS v4**.
 
-First, run the development server:
+- Minimal black & white design matching the app + pitch deck
+- **Bilingual (TR / EN)** with a language toggle (Turkish is the default)
+- Consumer waitlist + gym lead CTAs (forms are **UI-only** for now — see below)
+- Scroll-reveal animations, fully responsive
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm start        # serve the production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Adding the app screenshots
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Drop your phone screenshots into [`public/screens/`](public/screens/) using
+these exact filenames — they appear automatically:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Filename             | Shows in                              |
+| -------------------- | ------------------------------------- |
+| `today.png`          | Hero phone + App Showcase             |
+| `measurements.png`   | Digital Twin (left) + Showcase        |
+| `bodyfat.png`        | Digital Twin (right) + Showcase       |
+| `ranks.png`          | App Showcase                          |
 
-## Learn More
+Until a file exists, a labelled placeholder shows in its place. See
+[`public/screens/README.md`](public/screens/README.md) for tips.
 
-To learn more about Next.js, take a look at the following resources:
+## Project structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+  app/
+    layout.tsx        # fonts (TR-safe), SEO metadata, <LanguageProvider>
+    page.tsx          # assembles all sections
+    globals.css       # design tokens + reveal animation
+  components/
+    Header.tsx        # nav + TR/EN toggle + mobile menu
+    Hero.tsx          # hero with waitlist form + phone
+    Sections.tsx      # Problem, How, Twin, Compete, Coin, Privacy,
+                      #   Showcase, Gyms, Waitlist, FAQ
+    Footer.tsx
+    EmailForm.tsx     # reusable waitlist form (UI-only)
+    PhoneFrame.tsx    # phone mockup w/ graceful screenshot placeholder
+    Reveal.tsx        # scroll-reveal wrapper
+  i18n/
+    content.ts        # ALL copy, TR + EN — edit text here
+    LanguageProvider.tsx
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Editing copy
 
-## Deploy on Vercel
+All text lives in [`src/i18n/content.ts`](src/i18n/content.ts), keyed by `tr`
+and `en`. Edit there to change any wording — keep the two languages in sync.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Wiring up the forms (later)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The waitlist / lead forms in `EmailForm.tsx` currently just show a success
+state on submit (`// UI-only for now`). To make them live, post the email to a
+backend (e.g. a Next.js Route Handler at `app/api/waitlist/route.ts`) or an
+email/CRM service (Mailchimp, Resend, Formspree, etc.) inside `onSubmit`.
+
+## Domain
+
+Point your purchased domain at the deployment (Vercel recommended for Next.js).
+Update `siteUrl` in [`src/app/layout.tsx`](src/app/layout.tsx) to the final
+domain so SEO / Open Graph URLs are correct.
