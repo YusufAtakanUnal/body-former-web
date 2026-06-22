@@ -12,9 +12,9 @@ type Props = {
 
 /**
  * A phone mockup frame. Drop a screenshot into /public/screens/ and pass its
- * path as `src`. Until the file exists (or if it fails to load), a labelled
- * placeholder is shown so the layout is always complete and never flashes a
- * broken-image icon.
+ * path as `src`. The placeholder always sits behind the image; the image shows
+ * by default and is only hidden if it fails to load (so it never gets stuck
+ * invisible from an onLoad race when the file is served from cache).
  */
 export default function PhoneFrame({
   src,
@@ -22,7 +22,8 @@ export default function PhoneFrame({
   placeholderLabel,
   className = "",
 }: Props) {
-  const [loaded, setLoaded] = useState(false);
+  const [errored, setErrored] = useState(false);
+  const showImage = Boolean(src) && !errored;
 
   return (
     <div
@@ -53,16 +54,14 @@ export default function PhoneFrame({
       {/* notch */}
       <div className="absolute left-1/2 top-2 z-10 h-5 w-24 -translate-x-1/2 rounded-full bg-black/85" />
 
-      {/* Image layer — fades in only on successful load */}
-      {src && (
+      {/* Image layer — visible by default; hidden only if it fails to load */}
+      {showImage && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={src}
           alt={alt}
-          onLoad={() => setLoaded(true)}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
-            loaded ? "opacity-100" : "opacity-0"
-          }`}
+          onError={() => setErrored(true)}
+          className="absolute inset-0 h-full w-full object-cover"
         />
       )}
     </div>

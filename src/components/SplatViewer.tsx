@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import * as THREE from "three";
 import { useLang } from "@/i18n/LanguageProvider";
 
 type Props = {
@@ -9,10 +10,29 @@ type Props = {
   className?: string;
 };
 
+type SplatMeshLike = {
+  getSplatCount: () => number;
+  getSplatCenter: (i: number, out: THREE.Vector3, transform: boolean) => void;
+};
+
+type ViewerLike = {
+  camera?: THREE.PerspectiveCamera;
+  controls?: { target: THREE.Vector3; update: () => void };
+  getSplatMesh?: () => SplatMeshLike;
+  splatMesh?: SplatMeshLike;
+  addSplatScene?: (u: string, o: object) => Promise<void>;
+  start?: () => void;
+  stop?: () => void;
+  dispose?: () => void;
+};
+
 /**
  * Interactive 3D Gaussian Splat viewer (the user's real BodyFormer scan).
  * Renders with @mkkellogg/gaussian-splats-3d on its own WebGL canvas with
  * built-in orbit controls so users can rotate / zoom the avatar.
+ *
+ * After load it auto-frames the model from its real bounding box, so the
+ * camera always points at the scan regardless of the export's scale/center.
  *
  * Client-only (WebGL + workers). Load it via next/dynamic with ssr:false.
  */
@@ -22,9 +42,10 @@ export default function SplatViewer({ src, className = "" }: Props) {
   const [status, setStatus] = useState<"loading" | "ready" | "error">(
     "loading"
   );
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    let viewer: { dispose?: () => void; stop?: () => void } | null = null;
+    let viewer: ViewerLike | null = null;
     let disposed = false;
 
     (async () => {
@@ -33,42 +54,79 @@ export default function SplatViewer({ src, className = "" }: Props) {
         if (!host) return;
 
         const GS = await import("@mkkellogg/gaussian-splats-3d");
+        const Viewer = GS.Viewer ?? GS.default?.Viewer;
+        if (!Viewer) throw new Error("Viewer export not found");
 
         // Worker-based sort WITHOUT SharedArrayBuffer, so the site needs no
-        // COOP/COEP headers and deploys anywhere (Vercel, static hosts, etc.).
-        viewer = new GS.Viewer({
+        // COOP/COEP headers and deploys anywhere (static hosts, Vercel, etc.).
+        const v: ViewerLike = new Viewer({
           rootElement: host,
           sharedMemoryForWorkers: false,
           useBuiltInControls: true,
           selfDrivenMode: true,
           antialiased: true,
-          // The scan is exported Y-down; flip up-axis so it stands upright.
-          cameraUp: [0, -1, 0],
-          initialCameraPosition: [0, 0.2, -3.2],
-          initialCameraLookAt: [0, 0.1, 0],
-        }) as typeof viewer & {
-          addSplatScene: (u: string, o: object) => Promise<void>;
-          start: () => void;
-        };
+          cameraUp: [0, 1, 0],
+          initialCameraPosition: [0, 0, 4],
+          initialCameraLookAt: [0, 0, 0],
+        });
+        viewer = v;
 
-        await (
-          viewer as unknown as {
-            addSplatScene: (u: string, o: object) => Promise<void>;
-          }
-        ).addSplatScene(src, {
+        await v.addSplatScene!(src, {
           splatAlphaRemovalThreshold: 5,
           showLoadingUI: false,
           progressiveLoad: false,
+          onProgress: (pct: number) => {
+            if (!disposed) setProgress(Math.min(100, Math.round(pct)));
+          },
         });
 
         if (disposed) return;
-        (viewer as unknown as { start: () => void }).start();
+        v.start?.();
+        frameModel(v);
         setStatus("ready");
       } catch (err) {
         console.error("[SplatViewer] failed to load scene:", err);
         if (!disposed) setStatus("error");
       }
     })();
+
+    // Point the camera at the model's true centre, framed by its bounding box.
+    function frameModel(v: ViewerLike) {
+      try {
+        const mesh = v.getSplatMesh?.() ?? v.splatMesh;
+        const cam = v.camera;
+        if (!mesh || !cam) return;
+        const count = mesh.getSplatCount();
+        if (!count) return;
+
+        const box = new THREE.Box3();
+        const tmp = new THREE.Vector3();
+        const step = Math.max(1, Math.floor(count / 15000));
+        for (let i = 0; i < count; i += step) {
+          mesh.getSplatCenter(i, tmp, true);
+          box.expandByPoint(tmp);
+        }
+        if (box.isEmpty()) return;
+
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        const radius = 0.5 * size.length();
+        const fov = ((cam.fov ?? 60) * Math.PI) / 180;
+        const dist = (radius / Math.sin(fov / 2)) * 1.05;
+
+        cam.position.set(center.x, center.y, center.z + dist);
+        cam.near = Math.max(0.01, dist - radius * 2);
+        cam.far = dist + radius * 4;
+        cam.updateProjectionMatrix();
+
+        if (v.controls) {
+          v.controls.target.copy(center);
+          v.controls.update();
+        }
+      } catch (e) {
+        console.warn("[SplatViewer] auto-frame skipped:", e);
+      }
+    }
 
     return () => {
       disposed = true;
@@ -83,16 +141,17 @@ export default function SplatViewer({ src, className = "" }: Props) {
 
   return (
     <div
-      className={`relative overflow-hidden rounded-[2rem] border border-line bg-surface ${className}`}
+      className={`relative overflow-hidden rounded-4xl border border-line bg-surface ${className}`}
     >
       {/* Viewer mounts its canvas here */}
-      <div ref={hostRef} className="absolute inset-0 [&_canvas]:!outline-none" />
+      <div ref={hostRef} className="absolute inset-0 [&_canvas]:outline-none!" />
 
       {status === "loading" && (
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3">
           <div className="h-7 w-7 animate-spin rounded-full border-2 border-foreground/20 border-t-foreground" />
           <span className="text-xs font-medium text-muted">
             {t.viewer.loading}
+            {progress > 0 ? ` ${progress}%` : ""}
           </span>
         </div>
       )}
