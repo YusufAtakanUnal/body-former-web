@@ -50,6 +50,30 @@ export const metadata: Metadata = {
   },
 };
 
+// Structured data so Google recognises the brand "BodyFormer".
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "BodyFormer",
+      url: siteUrl,
+      email: "iletisim@bodyformer.com",
+      description:
+        "Rekabetçi vücut gelişim takip uygulaması. Donanımsız 3D dijital ikiz, doğrulanmış sosyal rekabet ve ödüllü klan ligleri.",
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: siteUrl,
+      name: "BodyFormer",
+      publisher: { "@id": `${siteUrl}/#organization` },
+      inLanguage: "tr-TR",
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -61,6 +85,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
