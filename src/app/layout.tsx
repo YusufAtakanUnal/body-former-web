@@ -17,10 +17,8 @@ const siteUrl = "https://bodyformer.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: {
-    default: "BodyFormer — Rekabetçi Vücut Gelişim Takip Uygulaması",
-    template: "%s · BodyFormer",
-  },
+  // Browser tab shows just the brand name.
+  title: "BodyFormer",
   description:
     "Donanımsız 3D dijital ikiz, doğrulanmış sosyal rekabet ve ödüllü klan ligleri. Sadece telefon kameranla 8 fotoğraf → 3D model + 16 ölçüm.",
   keywords: [
@@ -46,7 +44,10 @@ export const metadata: Metadata = {
     description:
       "Rekabetçi vücut gelişim takip uygulaması. Sadece telefon kameran.",
   },
-  icons: { icon: "/favicon.ico" },
+  // No favicon — show a blank tab icon (empty SVG), not the default logo.
+  icons: {
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>",
+  },
 };
 
 export default function RootLayout({
