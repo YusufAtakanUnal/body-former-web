@@ -3,7 +3,7 @@
 import { useLang } from "@/i18n/LanguageProvider";
 import Reveal from "./Reveal";
 import EmailForm from "./EmailForm";
-import PhoneFrame from "./PhoneFrame";
+import ScreenshotCard from "./ScreenshotCard";
 
 function SectionHead({
   eyebrow,
@@ -135,18 +135,16 @@ export function Twin() {
           </Reveal>
         </div>
 
-        <Reveal className="flex justify-center gap-4">
-          <PhoneFrame
+        <Reveal className="flex items-start justify-center gap-5 sm:gap-6">
+          <ScreenshotCard
             src="/screens/inapp1.jpeg"
-            alt="Tüm ölçümler ekranı"
-            placeholderLabel="/public/screens/inapp1.jpeg"
-            className="max-w-[230px] rotate-[-4deg]"
+            alt="BodyFormer — tüm ölçümler ekranı"
+            className="w-[46%] max-w-60 -rotate-2"
           />
-          <PhoneFrame
+          <ScreenshotCard
             src="/screens/inapp2.jpeg"
-            alt="Ölçüm listesi ekranı"
-            placeholderLabel="/public/screens/inapp2.jpeg"
-            className="mt-10 max-w-[230px] rotate-[4deg]"
+            alt="BodyFormer — ölçüm listesi ekranı"
+            className="mt-10 w-[46%] max-w-60 rotate-2"
           />
         </Reveal>
       </div>
@@ -253,39 +251,6 @@ export function Privacy() {
               </div>
               <h3 className="mt-6 text-lg font-bold">{pt.t}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">{pt.d}</p>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------------- App showcase ---------------- */
-export function Showcase() {
-  const { t } = useLang();
-  const s = t.showcase;
-  const shots = [
-    { src: "/screens/today.png", label: "/public/screens/today.png" },
-    {
-      src: "/screens/measurements.png",
-      label: "/public/screens/measurements.png",
-    },
-    { src: "/screens/bodyfat.png", label: "/public/screens/bodyfat.png" },
-    { src: "/screens/ranks.png", label: "/public/screens/ranks.png" },
-  ];
-  return (
-    <section className="border-t border-line bg-surface px-5 py-24 sm:px-8">
-      <div className="mx-auto max-w-6xl">
-        <SectionHead eyebrow={s.eyebrow} title={s.title} lead={s.lead} />
-        <div className="mt-14 grid grid-cols-2 gap-5 sm:grid-cols-4">
-          {shots.map((shot, i) => (
-            <Reveal key={shot.src} delay={i * 70}>
-              <PhoneFrame
-                src={shot.src}
-                alt={`BodyFormer screen ${i + 1}`}
-                placeholderLabel={shot.label}
-              />
             </Reveal>
           ))}
         </div>
