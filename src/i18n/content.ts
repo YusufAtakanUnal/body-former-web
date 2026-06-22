@@ -26,6 +26,12 @@ export const content = {
       stat3: "3D Avatar",
       stat3sub: "Kişiye özel dijital ikiz",
     },
+    viewer: {
+      loading: "3D model yükleniyor…",
+      error: "3D model bu cihazda görüntülenemedi.",
+      hint: "Döndürmek için sürükle",
+      caption: "Gerçek bir BodyFormer taraması — 3DGS avatar",
+    },
     problem: {
       eyebrow: "01 · Problem",
       title:
@@ -245,6 +251,12 @@ export const content = {
       stat2sub: "In seconds",
       stat3: "3D Avatar",
       stat3sub: "Your personal digital twin",
+    },
+    viewer: {
+      loading: "Loading 3D model…",
+      error: "The 3D model couldn't be displayed on this device.",
+      hint: "Drag to rotate",
+      caption: "A real BodyFormer scan — 3DGS avatar",
     },
     problem: {
       eyebrow: "01 · Problem",

@@ -7,7 +7,6 @@ import {
   Compete,
   Coin,
   Privacy,
-  Showcase,
   Gyms,
   Waitlist,
   Faq,
@@ -26,7 +25,6 @@ export default function Home() {
         <Compete />
         <Coin />
         <Privacy />
-        <Showcase />
         <Gyms />
         <Waitlist />
         <Faq />

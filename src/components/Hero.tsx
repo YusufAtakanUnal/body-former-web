@@ -1,8 +1,13 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useLang } from "@/i18n/LanguageProvider";
 import EmailForm from "./EmailForm";
-import PhoneFrame from "./PhoneFrame";
+
+// WebGL + workers — load only on the client, after the page paints.
+const SplatViewer = dynamic(() => import("./SplatViewer"), {
+  ssr: false,
+});
 
 export default function Hero() {
   const { t } = useLang();
@@ -61,14 +66,13 @@ export default function Hero() {
           </dl>
         </div>
 
-        {/* Right: phone */}
-        <div className="relative mx-auto w-full max-w-[300px] lg:max-w-[340px]">
+        {/* Right: interactive 3D Gaussian-splat scan */}
+        <div className="relative mx-auto w-full max-w-110">
           <div className="absolute -inset-8 -z-10 rounded-full bg-surface blur-2xl" />
-          <PhoneFrame
-            src="/screens/today.png"
-            alt="BodyFormer — Bugün ekranı"
-            placeholderLabel="/public/screens/today.png"
-          />
+          <SplatViewer src="/screens/demir.ply" className="aspect-3/4 w-full" />
+          <p className="mt-3 text-center text-xs text-muted">
+            {t.viewer.caption}
+          </p>
         </div>
       </div>
     </section>

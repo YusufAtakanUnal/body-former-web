@@ -137,15 +137,15 @@ export function Twin() {
 
         <Reveal className="flex justify-center gap-4">
           <PhoneFrame
-            src="/screens/measurements.png"
+            src="/screens/inapp1.jpeg"
             alt="Tüm ölçümler ekranı"
-            placeholderLabel="/public/screens/measurements.png"
+            placeholderLabel="/public/screens/inapp1.jpeg"
             className="max-w-[230px] rotate-[-4deg]"
           />
           <PhoneFrame
-            src="/screens/bodyfat.png"
-            alt="Body fat ekranı"
-            placeholderLabel="/public/screens/bodyfat.png"
+            src="/screens/inapp2.jpeg"
+            alt="Ölçüm listesi ekranı"
+            placeholderLabel="/public/screens/inapp2.jpeg"
             className="mt-10 max-w-[230px] rotate-[4deg]"
           />
         </Reveal>
