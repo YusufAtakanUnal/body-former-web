@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin", "latin-ext"],
 });
 
-const siteUrl = "https://bodyformer.com";
+const siteUrl = "https://bodyformer.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
