@@ -90,6 +90,12 @@ export const content = {
       deckHint: "8 giriş fotoğrafı · üstüne gel",
       appPreview: "Uygulamadan",
       measurementsTitle: "16 Bölge Ölçümü",
+      pipeline: {
+        eyebrow: "Fotoğraftan modele",
+        title: "8 fotoğraf, saniyeler içinde 3D modele dönüşüyor.",
+        lead: "Tescilli AI pipeline her fotoğraftan silüet, derinlik ve normal haritası çıkarır; bunları birleştirip dokulu 3D avatarı oluşturur.",
+        steps: ["Giriş fotoğrafı", "AI · Normal harita", "3D Model"],
+      },
       measurements: [
         "Boyun çevresi",
         "Omuz genişliği",
@@ -317,6 +323,12 @@ export const content = {
       deckHint: "8 input photos · hover to open",
       appPreview: "From the app",
       measurementsTitle: "16 Region Measurements",
+      pipeline: {
+        eyebrow: "From photo to model",
+        title: "8 photos become a 3D model in seconds.",
+        lead: "A proprietary AI pipeline extracts a silhouette, depth and a normal map from each photo, then fuses them into a textured 3D avatar.",
+        steps: ["Input photo", "AI · Normal map", "3D Model"],
+      },
       measurements: [
         "Neck circumference",
         "Shoulder width",

@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import { useLang } from "@/i18n/LanguageProvider";
 import Reveal from "./Reveal";
 import EmailForm from "./EmailForm";
@@ -174,6 +175,93 @@ export function Twin() {
             />
           </div>
         </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Pipeline: photo -> normal map -> 3D ---------------- */
+export function Pipeline() {
+  const { t } = useLang();
+  const p = t.twin.pipeline;
+  const stages = [
+    { kind: "img", src: "/screens/yg1.jpeg", label: p.steps[0], dark: false },
+    {
+      kind: "img",
+      src: "/screens/yg1_masked.png",
+      label: p.steps[1],
+      dark: true,
+    },
+    { kind: "video", src: "/screens/modelvideo.mp4", label: p.steps[2], dark: false },
+  ];
+
+  return (
+    <section className="border-t border-line bg-surface px-5 py-24 sm:px-8">
+      <div className="mx-auto max-w-6xl">
+        <SectionHead eyebrow={p.eyebrow} title={p.title} lead={p.lead} />
+
+        <div className="mt-14 flex flex-col items-center justify-center gap-5 md:flex-row md:items-stretch md:gap-3">
+          {stages.map((s, i) => (
+            <Fragment key={s.src}>
+              <Reveal delay={i * 110} className="w-full max-w-65">
+                <div
+                  className={`relative aspect-3/4 w-full overflow-hidden rounded-2xl border shadow-[0_22px_50px_-22px_rgba(0,0,0,0.4)] ring-1 ring-black/5 ${
+                    s.dark ? "border-foreground bg-foreground" : "border-line bg-white"
+                  }`}
+                >
+                  <span
+                    className={`absolute left-3 top-3 z-10 rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold ${
+                      s.dark ? "bg-white/15 text-white" : "bg-foreground/8 text-foreground"
+                    }`}
+                  >
+                    0{i + 1}
+                  </span>
+                  {s.kind === "video" ? (
+                    // eslint-disable-next-line jsx-a11y/media-has-caption
+                    <video
+                      src={s.src}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="h-full w-full object-contain"
+                    />
+                  ) : (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={s.src}
+                      alt={s.label}
+                      className="h-full w-full object-cover"
+                      style={{
+                        objectFit: s.dark ? "contain" : "cover",
+                        objectPosition: s.dark ? "center" : "center 28%",
+                      }}
+                    />
+                  )}
+                </div>
+                <p className="mt-3 text-center text-sm font-semibold">
+                  {s.label}
+                </p>
+              </Reveal>
+
+              {i < stages.length - 1 && (
+                <div className="flex shrink-0 items-center justify-center self-center text-muted">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    className="rotate-90 md:rotate-0"
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </div>
+              )}
+            </Fragment>
+          ))}
+        </div>
       </div>
     </section>
   );

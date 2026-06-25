@@ -9,8 +9,10 @@ type Props = {
 };
 
 /**
- * A stack of photos that sits like a held deck and fans open on hover/tap —
- * "as if I opened the deck in my hand". Used for the 8 input photos.
+ * A stack of photos that sits like a held deck and fans open on hover/tap.
+ * Cards are cropped toward the subject (object-position) and the open fan
+ * keeps enough of each card visible that the person — not the background —
+ * shows in every card.
  */
 export default function FanDeck({ photos, className = "" }: Props) {
   const [open, setOpen] = useState(false);
@@ -29,21 +31,21 @@ export default function FanDeck({ photos, className = "" }: Props) {
       role="button"
       aria-label="Giriş fotoğrafları"
     >
-      {/* sizing box — cards are absolutely centered within */}
-      <div className="relative mx-auto h-64 w-72 sm:h-72 sm:w-80">
+      <div className="relative mx-auto h-60 w-full max-w-[480px] sm:h-64">
         {photos.map((src, i) => {
-          const offset = i - mid; // negative = left, positive = right
-          // Closed: a tight, slightly messy stack. Open: a hand-held fan.
-          const rot = open ? offset * 7 : offset * 2.2;
-          const tx = open ? offset * 36 : offset * 4;
-          const ty = open ? Math.abs(offset) * 5 : Math.abs(offset) * 0.5;
+          const offset = i - mid; // - left, + right
+          // Closed: tidy held stack. Open: a wide fan, ~half of each card
+          // exposed so the centred subject is visible.
+          const rot = open ? offset * 6 : offset * 2;
+          const tx = open ? offset * 50 : offset * 4;
+          const ty = open ? Math.abs(offset) * 4 : Math.abs(offset) * 0.5;
           return (
             <div
               key={src}
-              className="absolute left-1/2 top-1/2 h-56 w-42 overflow-hidden rounded-2xl border border-line bg-white shadow-[0_18px_40px_-16px_rgba(0,0,0,0.45)] ring-1 ring-black/5 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] sm:h-64 sm:w-48"
+              className="absolute left-1/2 top-1/2 h-52 w-28 overflow-hidden rounded-2xl border border-line bg-white shadow-[0_18px_40px_-16px_rgba(0,0,0,0.45)] ring-1 ring-black/5 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] sm:h-56"
               style={{
                 zIndex: i,
-                transformOrigin: "50% 92%",
+                transformOrigin: "50% 95%",
                 transform: `translate(-50%, -50%) translate(${tx}px, ${ty}px) rotate(${rot}deg)`,
               }}
             >
@@ -53,6 +55,7 @@ export default function FanDeck({ photos, className = "" }: Props) {
                 alt={`Giriş fotoğrafı ${i + 1}`}
                 draggable={false}
                 className="h-full w-full object-cover"
+                style={{ objectPosition: "68% 38%" }}
               />
             </div>
           );

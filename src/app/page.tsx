@@ -4,6 +4,7 @@ import {
   Problem,
   How,
   Twin,
+  Pipeline,
   Compete,
   Coin,
   Privacy,
@@ -22,6 +23,7 @@ export default function Home() {
         <Problem />
         <How />
         <Twin />
+        <Pipeline />
         <Compete />
         <Coin />
         <Privacy />
