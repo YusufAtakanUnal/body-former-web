@@ -145,6 +145,13 @@ export const content = {
         { a: "Arkadaş daveti", c: "500" },
       ],
       note: "BodyFormer Coin kapalı-devre bir sadakat puanıdır — kripto para veya blockchain değildir.",
+      rewardsTitle: "Coin'lerini gerçek ödüllere çevir",
+      rewardsLead: "Partner supplement markalarından ürün ve indirimler — taradıkça kazan, harcadıkça al.",
+      products: [
+        { name: "Protein Tozu", note: "Partner markalardan" },
+        { name: "Protein Saşe", note: "Tek kullanımlık paket" },
+      ],
+      productHint: "Döndürmek için sürükle",
     },
     privacy: {
       eyebrow: "06 · Gizlilik",
@@ -169,6 +176,12 @@ export const content = {
       eyebrow: "07 · Uygulama",
       title: "Cebinde bir gelişim laboratuvarı.",
       lead: "Her ölçümün zaman içindeki seyrini izle, body fat trendini gör, klanında yüksel.",
+      highlights: [
+        { v: "16 ölçüm", s: "Her taramada" },
+        { v: "Aylık trend", s: "Body fat & çevreler" },
+        { v: "Klan ligi", s: "Sıralama & ödül" },
+        { v: "Şifreli", s: "Sadece sende" },
+      ],
     },
     gyms: {
       eyebrow: "08 · Salonlar İçin",
@@ -378,6 +391,13 @@ export const content = {
         { a: "Referral", c: "500" },
       ],
       note: "BodyFormer Coin is a closed-loop loyalty point — it is not a cryptocurrency or blockchain.",
+      rewardsTitle: "Turn your Coin into real rewards",
+      rewardsLead: "Products and discounts from partner supplement brands — earn by scanning, redeem by spending.",
+      products: [
+        { name: "Protein Powder", note: "From partner brands" },
+        { name: "Protein Sachet", note: "Single-serve pack" },
+      ],
+      productHint: "Drag to rotate",
     },
     privacy: {
       eyebrow: "06 · Privacy",
@@ -402,6 +422,12 @@ export const content = {
       eyebrow: "07 · The App",
       title: "A progress lab in your pocket.",
       lead: "Track every measurement over time, watch your body-fat trend, and climb your clan.",
+      highlights: [
+        { v: "16 metrics", s: "Every scan" },
+        { v: "Monthly trend", s: "Body fat & girths" },
+        { v: "Clan league", s: "Ranks & rewards" },
+        { v: "Encrypted", s: "Yours only" },
+      ],
     },
     gyms: {
       eyebrow: "08 · For Gyms",

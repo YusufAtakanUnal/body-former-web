@@ -31,7 +31,7 @@ export default function FanDeck({ photos, className = "" }: Props) {
       role="button"
       aria-label="Giriş fotoğrafları"
     >
-      <div className="relative mx-auto h-60 w-full max-w-[480px] sm:h-64">
+      <div className="relative mx-auto h-60 w-full max-w-[480px] origin-center scale-[0.62] sm:h-64 sm:scale-100">
         {photos.map((src, i) => {
           const offset = i - mid; // - left, + right
           // Closed: tidy held stack. Open: a wide fan, ~half of each card

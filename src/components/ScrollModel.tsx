@@ -61,9 +61,11 @@ export default function ScrollModel({ src }: Props) {
       }
 
       // Fade out between ~0.8 and ~1.25 screens — within the hero, before
-      // the next section scrolls up under it.
+      // the next section scrolls up under it. Capped low so it reads as a
+      // faint background watermark, not a foreground panel.
+      const BASE = 0.5;
       const fade = Math.min(1, Math.max(0, (y - H * 0.8) / (H * 0.45)));
-      const opacity = 1 - fade;
+      const opacity = BASE * (1 - fade);
       wrap.style.opacity = opacity.toFixed(3);
       wrap.style.visibility = opacity <= 0.01 ? "hidden" : "visible";
     };
@@ -90,17 +92,16 @@ export default function ScrollModel({ src }: Props) {
     <div
       ref={wrapRef}
       aria-hidden
-      className="pointer-events-none fixed inset-y-0 right-0 z-0 hidden w-[52%] items-center justify-center md:flex lg:w-[50%]"
+      style={{ opacity: 0.5 }}
+      className="pointer-events-none fixed inset-y-0 right-0 z-0 hidden w-[60%] items-center justify-center overflow-hidden md:flex lg:w-[54%]"
     >
-      {/* soft halo behind the model */}
-      <div className="absolute h-[70%] w-[70%] rounded-full bg-surface blur-3xl" />
       <video
         ref={videoRef}
         src={src}
         muted
         playsInline
         preload="auto"
-        className="relative h-[78vh] max-h-190 w-full object-contain"
+        className="h-[92vh] w-full object-contain"
       />
     </div>
   );

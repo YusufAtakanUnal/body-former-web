@@ -6,6 +6,9 @@ import Reveal from "./Reveal";
 import EmailForm from "./EmailForm";
 import ScreenshotCard from "./ScreenshotCard";
 import FanDeck from "./FanDeck";
+import dynamic from "next/dynamic";
+
+const ModelViewer = dynamic(() => import("./ModelViewer"), { ssr: false });
 
 function SectionHead({
   eyebrow,
@@ -159,21 +162,41 @@ export function Twin() {
           </Reveal>
         </div>
 
-        {/* App preview — the real measurement screens */}
-        <Reveal className="mt-20">
-          <p className="eyebrow mb-6 text-center">{tw.appPreview}</p>
-          <div className="flex items-start justify-center gap-5 sm:gap-6">
-            <ScreenshotCard
-              src="/screens/inapp1.jpeg"
-              alt="BodyFormer — tüm ölçümler ekranı"
-              className="w-[42%] max-w-56 -rotate-2"
-            />
-            <ScreenshotCard
-              src="/screens/inapp2.jpeg"
-              alt="BodyFormer — ölçüm listesi ekranı"
-              className="mt-10 w-[42%] max-w-56 rotate-2"
-            />
-          </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- App showcase ---------------- */
+export function AppShowcase() {
+  const { t } = useLang();
+  const s = t.showcase;
+  return (
+    <section className="border-t border-line bg-surface px-5 py-24 sm:px-8">
+      <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div>
+          <SectionHead eyebrow={s.eyebrow} title={s.title} lead={s.lead} />
+          <Reveal className="mt-8 flex flex-wrap gap-x-8 gap-y-4">
+            {s.highlights.map((hl) => (
+              <div key={hl.v} className="min-w-27.5">
+                <p className="text-2xl font-bold tracking-tight">{hl.v}</p>
+                <p className="mt-1 text-xs leading-snug text-muted">{hl.s}</p>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+
+        <Reveal className="flex items-center justify-center gap-4 sm:gap-6">
+          <ScreenshotCard
+            src="/screens/inapp1.jpeg"
+            alt="BodyFormer — tüm ölçümler ekranı"
+            className="w-1/2 max-w-64 -rotate-3"
+          />
+          <ScreenshotCard
+            src="/screens/inapp2.jpeg"
+            alt="BodyFormer — ölçüm listesi ekranı"
+            className="mt-8 w-1/2 max-w-64 rotate-3"
+          />
         </Reveal>
       </div>
     </section>
@@ -305,30 +328,69 @@ export function Compete() {
 export function Coin() {
   const { t } = useLang();
   const c = t.coin;
+  const products = [
+    { src: "/screens/protein_powder.glb", ...c.products[0] },
+    { src: "/screens/protein_sachet.glb", ...c.products[1] },
+  ];
   return (
     <section className="border-t border-line px-5 py-24 sm:px-8">
-      <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-2">
-        <SectionHead eyebrow={c.eyebrow} title={c.title} lead={c.lead} />
-        <Reveal className="self-center">
-          <div className="overflow-hidden rounded-2xl border border-line">
-            {c.rows.map((row, i) => (
-              <div
-                key={row.a}
-                className={`flex items-center justify-between gap-4 px-6 py-4 ${
-                  i !== 0 ? "border-t border-line" : ""
-                }`}
-              >
-                <span className="text-sm text-foreground">{row.a}</span>
-                <span className="flex shrink-0 items-center gap-1.5 font-mono text-sm font-semibold">
-                  <span className="flex h-4 w-4 items-center justify-center rounded-full bg-foreground text-[9px] text-white">
-                    ₿
+      <div className="mx-auto max-w-6xl">
+        <div className="grid gap-14 lg:grid-cols-2">
+          <SectionHead eyebrow={c.eyebrow} title={c.title} lead={c.lead} />
+          <Reveal className="self-center">
+            <div className="overflow-hidden rounded-2xl border border-line">
+              {c.rows.map((row, i) => (
+                <div
+                  key={row.a}
+                  className={`flex items-center justify-between gap-4 px-6 py-4 ${
+                    i !== 0 ? "border-t border-line" : ""
+                  }`}
+                >
+                  <span className="text-sm text-foreground">{row.a}</span>
+                  <span className="flex shrink-0 items-center gap-1.5 font-mono text-sm font-semibold">
+                    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-foreground text-[9px] text-white">
+                      ₿
+                    </span>
+                    {row.c}
                   </span>
-                  {row.c}
-                </span>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-xs leading-relaxed text-muted">{c.note}</p>
+          </Reveal>
+        </div>
+
+        {/* 3D supplement rewards */}
+        <Reveal className="mt-20">
+          <div className="mx-auto max-w-xl text-center">
+            <h3 className="text-2xl font-bold tracking-tight">
+              {c.rewardsTitle}
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              {c.rewardsLead}
+            </p>
+          </div>
+          <div className="mx-auto mt-10 grid max-w-3xl gap-5 sm:grid-cols-2">
+            {products.map((p) => (
+              <div
+                key={p.src}
+                className="rounded-3xl border border-line bg-surface p-4"
+              >
+                <div className="aspect-square w-full">
+                  <ModelViewer src={p.src} alt={p.name} className="h-full w-full" />
+                </div>
+                <div className="flex items-center justify-between px-2 pb-1 pt-2">
+                  <div>
+                    <p className="text-sm font-bold">{p.name}</p>
+                    <p className="text-xs text-muted">{p.note}</p>
+                  </div>
+                  <span className="rounded-full bg-foreground/8 px-2.5 py-1 text-[11px] font-medium text-muted">
+                    {c.productHint}
+                  </span>
+                </div>
               </div>
             ))}
           </div>
-          <p className="mt-4 text-xs leading-relaxed text-muted">{c.note}</p>
         </Reveal>
       </div>
     </section>

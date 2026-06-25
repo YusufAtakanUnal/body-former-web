@@ -5,6 +5,7 @@ import {
   How,
   Twin,
   Pipeline,
+  AppShowcase,
   Compete,
   Coin,
   Privacy,
@@ -24,6 +25,7 @@ export default function Home() {
         <How />
         <Twin />
         <Pipeline />
+        <AppShowcase />
         <Compete />
         <Coin />
         <Privacy />
