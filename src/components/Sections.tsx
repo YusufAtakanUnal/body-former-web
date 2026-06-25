@@ -4,6 +4,7 @@ import { useLang } from "@/i18n/LanguageProvider";
 import Reveal from "./Reveal";
 import EmailForm from "./EmailForm";
 import ScreenshotCard from "./ScreenshotCard";
+import FanDeck from "./FanDeck";
 
 function SectionHead({
   eyebrow,
@@ -116,12 +117,34 @@ export function Twin() {
   const tw = t.twin;
   return (
     <section id="twin" className="border-t border-line px-5 py-24 sm:px-8">
-      <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-2">
-        <div>
-          <SectionHead eyebrow={tw.eyebrow} title={tw.title} lead={tw.lead} />
-          <Reveal className="mt-10">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid items-center gap-14 lg:grid-cols-2">
+          {/* Left: heading + the 8-photo deck */}
+          <div>
+            <SectionHead eyebrow={tw.eyebrow} title={tw.title} lead={tw.lead} />
+            <Reveal className="mt-12">
+              <FanDeck
+                photos={[
+                  "/screens/yg1.jpeg",
+                  "/screens/yg2.jpeg",
+                  "/screens/yg3.jpeg",
+                  "/screens/yg4.jpeg",
+                  "/screens/yg5.jpeg",
+                  "/screens/yg6.jpeg",
+                  "/screens/yg7.jpeg",
+                  "/screens/yg8.jpeg",
+                ]}
+              />
+              <p className="mt-6 text-center text-xs font-medium text-muted">
+                {tw.deckHint}
+              </p>
+            </Reveal>
+          </div>
+
+          {/* Right: the 16 measurements */}
+          <Reveal>
             <p className="eyebrow mb-4">{tw.measurementsTitle}</p>
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-2.5 sm:grid-cols-2">
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-2.5">
               {tw.measurements.map((m) => (
                 <li
                   key={m}
@@ -135,17 +158,21 @@ export function Twin() {
           </Reveal>
         </div>
 
-        <Reveal className="flex items-start justify-center gap-5 sm:gap-6">
-          <ScreenshotCard
-            src="/screens/inapp1.jpeg"
-            alt="BodyFormer — tüm ölçümler ekranı"
-            className="w-[46%] max-w-60 -rotate-2"
-          />
-          <ScreenshotCard
-            src="/screens/inapp2.jpeg"
-            alt="BodyFormer — ölçüm listesi ekranı"
-            className="mt-10 w-[46%] max-w-60 rotate-2"
-          />
+        {/* App preview — the real measurement screens */}
+        <Reveal className="mt-20">
+          <p className="eyebrow mb-6 text-center">{tw.appPreview}</p>
+          <div className="flex items-start justify-center gap-5 sm:gap-6">
+            <ScreenshotCard
+              src="/screens/inapp1.jpeg"
+              alt="BodyFormer — tüm ölçümler ekranı"
+              className="w-[42%] max-w-56 -rotate-2"
+            />
+            <ScreenshotCard
+              src="/screens/inapp2.jpeg"
+              alt="BodyFormer — ölçüm listesi ekranı"
+              className="mt-10 w-[42%] max-w-56 rotate-2"
+            />
+          </div>
         </Reveal>
       </div>
     </section>

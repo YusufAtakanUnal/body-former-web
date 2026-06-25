@@ -87,6 +87,8 @@ export const content = {
       eyebrow: "03 · Dijital İkiz",
       title: "8 fotoğraf. 3D model. 16 ölçüm.",
       lead: "Gelişimin rakamların ötesinde görsel kanıta dönüşüyor. Ham görüntülerin senin cihazında şifreli kalır.",
+      deckHint: "8 giriş fotoğrafı · üstüne gel",
+      appPreview: "Uygulamadan",
       measurementsTitle: "16 Bölge Ölçümü",
       measurements: [
         "Boyun çevresi",
@@ -312,6 +314,8 @@ export const content = {
       eyebrow: "03 · Digital Twin",
       title: "8 photos. A 3D model. 16 measurements.",
       lead: "Your progress becomes visual proof beyond the numbers. Your raw images stay encrypted on your device.",
+      deckHint: "8 input photos · hover to open",
+      appPreview: "From the app",
       measurementsTitle: "16 Region Measurements",
       measurements: [
         "Neck circumference",

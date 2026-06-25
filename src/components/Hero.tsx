@@ -4,10 +4,8 @@ import dynamic from "next/dynamic";
 import { useLang } from "@/i18n/LanguageProvider";
 import EmailForm from "./EmailForm";
 
-// WebGL + workers — load only on the client, after the page paints.
-const SplatViewer = dynamic(() => import("./SplatViewer"), {
-  ssr: false,
-});
+// Video + scroll math — client only.
+const ScrollModel = dynamic(() => import("./ScrollModel"), { ssr: false });
 
 export default function Hero() {
   const { t } = useLang();
@@ -16,12 +14,15 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden px-5 pb-20 pt-28 sm:px-8 sm:pt-36"
+      className="relative px-5 pb-24 pt-28 sm:px-8 sm:pt-36 md:min-h-[140vh]"
     >
-      <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
-        {/* Left: copy */}
-        <div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-xs font-semibold text-muted">
+      {/* 3D model — fixed on the right, rotates on scroll, fades out */}
+      <ScrollModel src="/screens/modelvideo.mp4" />
+
+      {/* Hero copy — stays left, above the model */}
+      <div className="relative z-10 mx-auto max-w-6xl">
+        <div className="max-w-xl">
+          <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white/70 px-3 py-1 text-xs font-semibold text-muted backdrop-blur-sm">
             <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
             {h.badge}
           </span>
@@ -38,6 +39,19 @@ export default function Hero() {
           <p className="mt-3 max-w-md text-base leading-relaxed text-muted">
             {h.subtitle}
           </p>
+
+          {/* Mobile-only inline model (desktop uses the fixed ScrollModel) */}
+          <div className="mt-8 flex justify-center md:hidden">
+            {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+            <video
+              src="/screens/modelvideo.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="h-[44vh] w-auto object-contain"
+            />
+          </div>
 
           <div className="mt-8 max-w-md">
             <EmailForm
@@ -64,15 +78,6 @@ export default function Hero() {
               </div>
             ))}
           </dl>
-        </div>
-
-        {/* Right: interactive 3D Gaussian-splat scan */}
-        <div className="relative mx-auto w-full max-w-110">
-          <div className="absolute -inset-8 -z-10 rounded-full bg-surface blur-2xl" />
-          <SplatViewer src="/screens/demir.ply" className="aspect-3/4 w-full" />
-          <p className="mt-3 text-center text-xs text-muted">
-            {t.viewer.caption}
-          </p>
         </div>
       </div>
     </section>
