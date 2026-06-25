@@ -149,7 +149,7 @@ export const content = {
       rewardsLead: "Partner supplement markalarından ürün ve indirimler — taradıkça kazan, harcadıkça al.",
       products: [
         { name: "Protein Tozu", note: "Partner markalardan" },
-        { name: "Protein Saşe", note: "Tek kullanımlık paket" },
+        { name: "Protein Tozu", note: "Tek kullanımlık paket" },
       ],
       productHint: "Döndürmek için sürükle",
     },
