@@ -395,7 +395,7 @@ export const content = {
       rewardsLead: "Products and discounts from partner supplement brands — earn by scanning, redeem by spending.",
       products: [
         { name: "Protein Powder", note: "From partner brands" },
-        { name: "Protein Sachet", note: "Single-serve pack" },
+        { name: "Protein Powder", note: "Single-serve pack" },
       ],
       productHint: "Drag to rotate",
     },
