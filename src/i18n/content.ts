@@ -89,6 +89,9 @@ export const content = {
       lead: "Gelişimin rakamların ötesinde görsel kanıta dönüşüyor. Ham görüntülerin senin cihazında şifreli kalır.",
       deckHint: "8 giriş fotoğrafı · üstüne gel",
       appPreview: "Uygulamadan",
+      spinHint: "Çevirmek için sağa-sola hareket ettir",
+      photoLabel: "Giriş fotoğrafları",
+      maskLabel: "AI · Normal harita",
       measurementsTitle: "16 Bölge Ölçümü",
       pipeline: {
         eyebrow: "Fotoğraftan modele",
@@ -335,6 +338,9 @@ export const content = {
       lead: "Your progress becomes visual proof beyond the numbers. Your raw images stay encrypted on your device.",
       deckHint: "8 input photos · hover to open",
       appPreview: "From the app",
+      spinHint: "Move left / right to spin",
+      photoLabel: "Input photos",
+      maskLabel: "AI · Normal map",
       measurementsTitle: "16 Region Measurements",
       pipeline: {
         eyebrow: "From photo to model",

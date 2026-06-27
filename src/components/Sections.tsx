@@ -5,7 +5,7 @@ import { useLang } from "@/i18n/LanguageProvider";
 import Reveal from "./Reveal";
 import EmailForm from "./EmailForm";
 import ScreenshotCard from "./ScreenshotCard";
-import FanDeck from "./FanDeck";
+import SpinShowcase from "./SpinShowcase";
 import dynamic from "next/dynamic";
 
 const ModelViewer = dynamic(() => import("./ModelViewer"), { ssr: false });
@@ -116,34 +116,27 @@ export function How() {
 }
 
 /* ---------------- Digital Twin + measurements ---------------- */
+const YG = Array.from({ length: 8 }, (_, i) => i + 1);
+
 export function Twin() {
   const { t } = useLang();
   const tw = t.twin;
   return (
     <section id="twin" className="border-t border-line px-5 py-24 sm:px-8">
       <div className="mx-auto max-w-6xl">
-        <div className="grid items-center gap-14 lg:grid-cols-2">
-          {/* Left: heading + the 8-photo deck */}
-          <div>
-            <SectionHead eyebrow={tw.eyebrow} title={tw.title} lead={tw.lead} />
-            <Reveal className="mt-12">
-              <FanDeck
-                photos={[
-                  "/screens/yg1.jpeg",
-                  "/screens/yg2.jpeg",
-                  "/screens/yg3.jpeg",
-                  "/screens/yg4.jpeg",
-                  "/screens/yg5.jpeg",
-                  "/screens/yg6.jpeg",
-                  "/screens/yg7.jpeg",
-                  "/screens/yg8.jpeg",
-                ]}
-              />
-              <p className="mt-6 text-center text-xs font-medium text-muted">
-                {tw.deckHint}
-              </p>
-            </Reveal>
-          </div>
+        <SectionHead eyebrow={tw.eyebrow} title={tw.title} lead={tw.lead} />
+
+        <div className="mt-14 grid items-start gap-14 lg:grid-cols-2">
+          {/* Left: the two synced spin sets (photos + normal maps) */}
+          <Reveal>
+            <SpinShowcase
+              photos={YG.map((i) => `/screens/yg${i}.jpeg`)}
+              masks={YG.map((i) => `/screens/yg${i}_masked.png`)}
+              photoLabel={tw.photoLabel}
+              maskLabel={tw.maskLabel}
+              hint={tw.spinHint}
+            />
+          </Reveal>
 
           {/* Right: the 16 measurements */}
           <Reveal>
@@ -161,7 +154,6 @@ export function Twin() {
             </ul>
           </Reveal>
         </div>
-
       </div>
     </section>
   );
