@@ -6,6 +6,9 @@ import EmailForm from "./EmailForm";
 import ScreenshotCard from "./ScreenshotCard";
 import TwinPipeline from "./TwinPipeline";
 import EcosystemGraph from "./EcosystemGraph";
+import dynamic from "next/dynamic";
+
+const ModelViewer = dynamic(() => import("./ModelViewer"), { ssr: false });
 
 function SectionHead({
   eyebrow,
@@ -260,7 +263,7 @@ export function Coin() {
           </Reveal>
         </div>
 
-        {/* Ecosystem value graph */}
+        {/* User-centric value graph */}
         <Reveal className="mt-20">
           <div className="mx-auto max-w-xl text-center">
             <h3 className="text-2xl font-bold tracking-tight">{c.graphTitle}</h3>
@@ -272,6 +275,46 @@ export function Coin() {
             <div className="min-w-140">
               <EcosystemGraph />
             </div>
+          </div>
+        </Reveal>
+
+        {/* The real rewards — interactive 3D supplements */}
+        <Reveal className="mt-20 border-t border-line pt-16">
+          <div className="mx-auto max-w-xl text-center">
+            <h3 className="text-2xl font-bold tracking-tight">
+              {c.rewardsTitle}
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted">
+              {c.rewardsLead}
+            </p>
+          </div>
+          <div className="mx-auto mt-10 grid max-w-3xl gap-5 sm:grid-cols-2">
+            {[
+              { src: "/screens/protein_powder.glb", ...c.products[0] },
+              { src: "/screens/protein_sachet.glb", ...c.products[1] },
+            ].map((p) => (
+              <div
+                key={p.src}
+                className="rounded-3xl border border-line bg-surface p-4"
+              >
+                <div className="aspect-square w-full">
+                  <ModelViewer
+                    src={p.src}
+                    alt={p.name}
+                    className="h-full w-full"
+                  />
+                </div>
+                <div className="flex items-center justify-between px-2 pb-1 pt-2">
+                  <div>
+                    <p className="text-sm font-bold">{p.name}</p>
+                    <p className="text-xs text-muted">{p.note}</p>
+                  </div>
+                  <span className="rounded-full bg-foreground/8 px-2.5 py-1 text-[11px] font-medium text-muted">
+                    {c.productHint}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </Reveal>
       </div>

@@ -4,10 +4,11 @@ import { useLang } from "@/i18n/LanguageProvider";
 
 type Node = { x: number; y: number; r: number };
 
+// User is the hub — everything flows to/from "You".
 const N: Record<string, Node> = {
-  bf: { x: 480, y: 120, r: 112 },
-  user: { x: 180, y: 395, r: 96 },
-  brand: { x: 790, y: 395, r: 128 },
+  user: { x: 480, y: 140, r: 104 },
+  bf: { x: 165, y: 395, r: 96 },
+  brand: { x: 795, y: 395, r: 128 },
 };
 
 function edge(a: Node, b: Node, bow: number) {
@@ -22,10 +23,8 @@ function edge(a: Node, b: Node, bow: number) {
   const ey = b.y - uy * b.r;
   const mx = (sx + ex) / 2;
   const my = (sy + ey) / 2;
-  const px = -uy;
-  const py = ux;
-  const cx = mx + px * bow;
-  const cy = my + py * bow;
+  const cx = mx + -uy * bow;
+  const cy = my + ux * bow;
   return { d: `M ${sx} ${sy} Q ${cx} ${cy} ${ex} ${ey}`, lx: cx, ly: cy };
 }
 
@@ -34,20 +33,19 @@ export default function EcosystemGraph() {
   const e = t.coin.edges;
   const nlab = t.coin.nodes;
 
-  const edges = [
-    { ...edge(N.user, N.bf, -46), label: e.userToBf },
-    { ...edge(N.bf, N.user, -46), label: e.bfToUser },
-    { ...edge(N.brand, N.bf, 40), label: e.brandToBf },
-    { ...edge(N.bf, N.brand, 40), label: e.bfToBrand },
-    { ...edge(N.brand, N.user, 66), label: e.brandToUser },
+  const primary = [
+    { ...edge(N.user, N.bf, 44), label: e.userToBf },
+    { ...edge(N.bf, N.user, 44), label: e.bfToUser },
+    { ...edge(N.brand, N.user, 40), label: e.brandToUser },
   ];
+  const secondary = { ...edge(N.bf, N.brand, 66), label: e.bfBrand };
 
   return (
     <svg
       viewBox="0 0 960 520"
       className="h-auto w-full"
       role="img"
-      aria-label="BodyFormer ecosystem value graph"
+      aria-label="BodyFormer value graph"
     >
       <defs>
         <marker
@@ -63,22 +61,35 @@ export default function EcosystemGraph() {
         </marker>
       </defs>
 
-      {/* edges */}
-      <g className="text-foreground/35">
-        {edges.map((ed, i) => (
+      {/* secondary (brand ⇄ bodyformer) — de-emphasised */}
+      <g className="text-foreground/20">
+        <path
+          d={secondary.d}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.4"
+          strokeDasharray="5 5"
+          markerStart="url(#eg-arrow)"
+          markerEnd="url(#eg-arrow)"
+        />
+      </g>
+
+      {/* primary edges (everything to/from the user) */}
+      <g className="text-foreground/45">
+        {primary.map((ed, i) => (
           <path
             key={i}
             d={ed.d}
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.6"
+            strokeWidth="1.8"
             markerEnd="url(#eg-arrow)"
           />
         ))}
       </g>
 
-      {/* edge labels */}
-      {edges.map((ed, i) => {
+      {/* labels */}
+      {[...primary, secondary].map((ed, i) => {
         const w = ed.label.length * 6.6 + 16;
         return (
           <g key={`l${i}`}>
@@ -106,9 +117,9 @@ export default function EcosystemGraph() {
         );
       })}
 
-      {/* nodes */}
-      <Node node={N.bf} label="BodyFormer" hub />
-      <Node node={N.user} label={nlab.user} />
+      {/* nodes — user is the highlighted hub */}
+      <Node node={N.user} label={nlab.user} hub />
+      <Node node={N.bf} label="BodyFormer" />
       <Node node={N.brand} label={nlab.brand} />
     </svg>
   );
@@ -123,8 +134,10 @@ function Node({
   label: string;
   hub?: boolean;
 }) {
-  const w = hub ? 210 : Math.max(150, label.length * 11 + 40);
-  const h = 62;
+  const w = hub
+    ? Math.max(160, label.length * 13 + 56)
+    : Math.max(150, label.length * 11 + 40);
+  const h = hub ? 70 : 60;
   return (
     <g>
       <rect
@@ -132,7 +145,7 @@ function Node({
         y={node.y - h / 2}
         width={w}
         height={h}
-        rx={16}
+        rx={hub ? 20 : 16}
         className={hub ? "fill-foreground" : "fill-background"}
         stroke="currentColor"
         strokeWidth={hub ? 0 : 1.6}
@@ -140,10 +153,10 @@ function Node({
       />
       <text
         x={node.x}
-        y={node.y + 6}
+        y={node.y + (hub ? 7 : 6)}
         textAnchor="middle"
         className={hub ? "fill-background" : "fill-foreground"}
-        style={{ fontSize: hub ? "20px" : "16px", fontWeight: 700 }}
+        style={{ fontSize: hub ? "22px" : "16px", fontWeight: 700 }}
       >
         {label}
       </text>
