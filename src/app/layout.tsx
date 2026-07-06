@@ -44,9 +44,8 @@ export const metadata: Metadata = {
     description:
       "Rekabetçi vücut gelişim takip uygulaması. Sadece telefon kameran.",
   },
-  // No favicon — show a blank tab icon (empty SVG), not the default logo.
   icons: {
-    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>",
+    icon: "/logo.png",
   },
 };
 
