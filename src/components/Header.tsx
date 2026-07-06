@@ -31,8 +31,9 @@ export default function Header() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
-        <a href="#top" className="flex items-center gap-2">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-5 sm:px-8">
+        <a href="#top" className="flex shrink-0 items-center gap-2">
+          <img src="/logo.png" alt="BodyFormer" className="h-[45px] w-auto" />
           <span className="text-[15px] font-bold tracking-[0.16em]">
             BODYFORMER
           </span>

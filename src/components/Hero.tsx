@@ -22,6 +22,8 @@ export default function Hero() {
           {h.title}
         </h1>
 
+        <img src="/logo.png" alt="BodyFormer" className="mt-6 h-[144px] w-auto sm:h-[202px]" />
+
         <div className="rule mt-7" />
 
         <p className="mt-7 max-w-xl text-2xl font-medium leading-snug sm:text-3xl">
