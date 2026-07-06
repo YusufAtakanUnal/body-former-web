@@ -1,14 +1,11 @@
 "use client";
 
-import { Fragment } from "react";
 import { useLang } from "@/i18n/LanguageProvider";
 import Reveal from "./Reveal";
 import EmailForm from "./EmailForm";
 import ScreenshotCard from "./ScreenshotCard";
-import SpinShowcase from "./SpinShowcase";
-import dynamic from "next/dynamic";
-
-const ModelViewer = dynamic(() => import("./ModelViewer"), { ssr: false });
+import TwinPipeline from "./TwinPipeline";
+import EcosystemGraph from "./EcosystemGraph";
 
 function SectionHead({
   eyebrow,
@@ -126,34 +123,36 @@ export function Twin() {
       <div className="mx-auto max-w-6xl">
         <SectionHead eyebrow={tw.eyebrow} title={tw.title} lead={tw.lead} />
 
-        <div className="mt-14 grid items-start gap-14 lg:grid-cols-2">
-          {/* Left: the two synced spin sets (photos + normal maps) */}
-          <Reveal>
-            <SpinShowcase
-              photos={YG.map((i) => `/screens/yg${i}.jpeg`)}
-              masks={YG.map((i) => `/screens/yg${i}_masked.png`)}
-              photoLabel={tw.photoLabel}
-              maskLabel={tw.maskLabel}
-              hint={tw.spinHint}
-            />
-          </Reveal>
+        {/* One interactive pipeline: photo → AI normal map → 3D model */}
+        <Reveal className="mt-16">
+          <TwinPipeline
+            photos={YG.map((i) => `/screens/yg${i}.jpeg`)}
+            normals={YG.map((i) => `/screens/yg${i}_cut.png`)}
+            video="/screens/modelvideo.mp4"
+            labels={{
+              input: tw.photoLabel,
+              aiEngine: tw.aiEngine,
+              normal: tw.maskLabel,
+              output: tw.output,
+            }}
+          />
+        </Reveal>
 
-          {/* Right: the 16 measurements */}
-          <Reveal>
-            <p className="eyebrow mb-4">{tw.measurementsTitle}</p>
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-2.5">
-              {tw.measurements.map((m) => (
-                <li
-                  key={m}
-                  className="flex items-center gap-2.5 text-sm text-foreground"
-                >
-                  <span className="h-1 w-1 shrink-0 rounded-full bg-foreground" />
-                  {m}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
+        {/* 16 measurements */}
+        <Reveal className="mt-16 border-t border-line pt-12">
+          <p className="eyebrow mb-5 text-center">{tw.measurementsTitle}</p>
+          <ul className="mx-auto grid max-w-3xl grid-cols-2 gap-x-8 gap-y-2.5 sm:grid-cols-4">
+            {tw.measurements.map((m) => (
+              <li
+                key={m}
+                className="flex items-center gap-2.5 text-sm text-foreground"
+              >
+                <span className="h-1 w-1 shrink-0 rounded-full bg-foreground" />
+                {m}
+              </li>
+            ))}
+          </ul>
+        </Reveal>
       </div>
     </section>
   );
@@ -190,93 +189,6 @@ export function AppShowcase() {
             className="mt-8 w-1/2 max-w-64 rotate-3"
           />
         </Reveal>
-      </div>
-    </section>
-  );
-}
-
-/* ---------------- Pipeline: photo -> normal map -> 3D ---------------- */
-export function Pipeline() {
-  const { t } = useLang();
-  const p = t.twin.pipeline;
-  const stages = [
-    { kind: "img", src: "/screens/yg1.jpeg", label: p.steps[0], dark: false },
-    {
-      kind: "img",
-      src: "/screens/yg1_masked.png",
-      label: p.steps[1],
-      dark: true,
-    },
-    { kind: "video", src: "/screens/modelvideo.mp4", label: p.steps[2], dark: false },
-  ];
-
-  return (
-    <section className="border-t border-line bg-surface px-5 py-24 sm:px-8">
-      <div className="mx-auto max-w-6xl">
-        <SectionHead eyebrow={p.eyebrow} title={p.title} lead={p.lead} />
-
-        <div className="mt-14 flex flex-col items-center justify-center gap-5 md:flex-row md:items-stretch md:gap-3">
-          {stages.map((s, i) => (
-            <Fragment key={s.src}>
-              <Reveal delay={i * 110} className="w-full max-w-65">
-                <div
-                  className={`relative aspect-3/4 w-full overflow-hidden rounded-2xl border shadow-[0_22px_50px_-22px_rgba(0,0,0,0.4)] ring-1 ring-black/5 ${
-                    s.dark ? "border-foreground bg-foreground" : "border-line bg-white"
-                  }`}
-                >
-                  <span
-                    className={`absolute left-3 top-3 z-10 rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold ${
-                      s.dark ? "bg-white/15 text-white" : "bg-foreground/8 text-foreground"
-                    }`}
-                  >
-                    0{i + 1}
-                  </span>
-                  {s.kind === "video" ? (
-                    // eslint-disable-next-line jsx-a11y/media-has-caption
-                    <video
-                      src={s.src}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="h-full w-full object-contain"
-                    />
-                  ) : (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={s.src}
-                      alt={s.label}
-                      className="h-full w-full object-cover"
-                      style={{
-                        objectFit: s.dark ? "contain" : "cover",
-                        objectPosition: s.dark ? "center" : "center 28%",
-                      }}
-                    />
-                  )}
-                </div>
-                <p className="mt-3 text-center text-sm font-semibold">
-                  {s.label}
-                </p>
-              </Reveal>
-
-              {i < stages.length - 1 && (
-                <div className="flex shrink-0 items-center justify-center self-center text-muted">
-                  <svg
-                    width="26"
-                    height="26"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    className="rotate-90 md:rotate-0"
-                  >
-                    <path d="M5 12h14M13 6l6 6-6 6" />
-                  </svg>
-                </div>
-              )}
-            </Fragment>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -320,10 +232,6 @@ export function Compete() {
 export function Coin() {
   const { t } = useLang();
   const c = t.coin;
-  const products = [
-    { src: "/screens/protein_powder.glb", ...c.products[0] },
-    { src: "/screens/protein_sachet.glb", ...c.products[1] },
-  ];
   return (
     <section className="border-t border-line px-5 py-24 sm:px-8">
       <div className="mx-auto max-w-6xl">
@@ -352,36 +260,18 @@ export function Coin() {
           </Reveal>
         </div>
 
-        {/* 3D supplement rewards */}
+        {/* Ecosystem value graph */}
         <Reveal className="mt-20">
           <div className="mx-auto max-w-xl text-center">
-            <h3 className="text-2xl font-bold tracking-tight">
-              {c.rewardsTitle}
-            </h3>
+            <h3 className="text-2xl font-bold tracking-tight">{c.graphTitle}</h3>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              {c.rewardsLead}
+              {c.graphLead}
             </p>
           </div>
-          <div className="mx-auto mt-10 grid max-w-3xl gap-5 sm:grid-cols-2">
-            {products.map((p) => (
-              <div
-                key={p.src}
-                className="rounded-3xl border border-line bg-surface p-4"
-              >
-                <div className="aspect-square w-full">
-                  <ModelViewer src={p.src} alt={p.name} className="h-full w-full" />
-                </div>
-                <div className="flex items-center justify-between px-2 pb-1 pt-2">
-                  <div>
-                    <p className="text-sm font-bold">{p.name}</p>
-                    <p className="text-xs text-muted">{p.note}</p>
-                  </div>
-                  <span className="rounded-full bg-foreground/8 px-2.5 py-1 text-[11px] font-medium text-muted">
-                    {c.productHint}
-                  </span>
-                </div>
-              </div>
-            ))}
+          <div className="mx-auto mt-10 max-w-3xl overflow-x-auto">
+            <div className="min-w-140">
+              <EcosystemGraph />
+            </div>
           </div>
         </Reveal>
       </div>
