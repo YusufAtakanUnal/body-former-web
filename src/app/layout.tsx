@@ -45,7 +45,10 @@ export const metadata: Metadata = {
       "Rekabetçi vücut gelişim takip uygulaması. Sadece telefon kameran.",
   },
   icons: {
-    icon: "/logo.png",
+    icon: [
+      { url: "/logo.png", media: "(prefers-color-scheme: light)" },
+      { url: "/logo-white.png", media: "(prefers-color-scheme: dark)" },
+    ],
   },
 };
 
