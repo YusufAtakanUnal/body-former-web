@@ -37,6 +37,9 @@ export default function Hero() {
           autoPlay
           muted
           playsInline
+          disablePictureInPicture
+          disableRemotePlayback
+          controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
           onMouseEnter={replay}
           className="mt-6 h-[144px] w-auto mix-blend-multiply sm:h-[202px]"
         />

@@ -77,3 +77,16 @@ body {
   background: #0a0a0a;
   color: #fff;
 }
+
+/* Decorative autoplay videos (e.g. the hero logo animation) shouldn't show
+   the browser's hover-triggered play/picture-in-picture overlay. */
+video::-webkit-media-controls,
+video::-webkit-media-controls-panel,
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls-overlay-play-button,
+video::-internal-media-controls-overlay-cast-button {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
