@@ -1,41 +1,50 @@
 # Siteyi Güncelleme Rehberi (BodyFormer)
 
-Canlı site: **https://bodyformer.app** (Vercel'de barınıyor).
+Canlı site: **https://bodyformer.app**
+Barındırma: **Netlify** (GitHub'a bağlı — her push otomatik yayınlanır).
+Depo: https://github.com/YusufAtakanUnal/body-former-web (private)
 
-## En kolay yol
-Claude'a ne istediğini söyle ("şu yazıyı değiştir", "görseli güncelle") —
-düzenleme + yayınlama onun işi.
+## Nasıl çalışır
+`main` dalına **her `git push`** → Netlify otomatik build alır → `bodyformer.app`
+kendiliğinden güncellenir (~1-2 dk). Ayrı bir "deploy" komutu gerekmez.
 
-## Kendin yapmak istersen
+## Kendin güncellemek
 
 ### 1. Neyi nerede değiştirirsin
 | Değişiklik | Dosya / Klasör |
 | --- | --- |
 | Tüm yazılar (TR + EN) | `src/i18n/content.ts` |
-| Ekran görüntüleri | `public/screens/inapp1.jpeg`, `inapp2.jpeg` (aynı isimle değiştir) |
-| 3D model | `public/screens/demir.ply` (aynı isimle değiştir) |
+| Giriş fotoğrafları / normal map | `public/screens/yg*.jpeg`, `yg*_cut.png` |
+| Uygulama ekranları | `public/screens/inapp1.jpeg`, `inapp2.jpeg` |
+| Model videosu | `public/screens/modelvideo.mp4` |
+| Logo | `public/logo.png` |
 | Sekme başlığı / SEO | `src/app/layout.tsx` |
 
-### 2. (İsteğe bağlı) Önce yerelde gör
+### 2. (İlk sefer / yeni bilgisayar) kur
 ```bash
-npm run dev
+git clone https://github.com/YusufAtakanUnal/body-former-web.git
+cd body-former-web
+npm install
 ```
-Tarayıcıda http://localhost:3000 — değişiklikleri anında görürsün.
-Durdurmak için terminalde `Ctrl+C`.
 
-### 3. Canlıya yayınla (2 komut)
-Proje klasöründe terminal aç:
+### 3. Yerelde gör (isteğe bağlı)
 ```bash
-npm run build
-vercel --prod --yes
+npm run dev          # http://localhost:3000
 ```
-Birkaç saniyede `bodyformer.app` güncellenir.
+
+### 4. Yayınla
+```bash
+git pull             # önce en günceli al (özellikle 2 kişi çalışıyorsa)
+git add .
+git commit -m "ne değişti"
+git push
+```
+→ Netlify otomatik yayınlar. Bitince `bodyformer.app` güncel.
 
 ## Notlar
-- **Domain otomatik bağlı kalır** — her deploy `bodyformer.app`'e gider, DNS'e
-  dokunmana gerek yok.
-- **Vercel girişi kalıcı** — `vercel --prod --yes` tekrar login istemez.
-- **Geri alma:** Bir şey bozulursa Vercel paneli → Deployments → eski sürüm →
-  "Promote to Production" ile tek tıkla geri dön.
-- İlk kez başka bilgisayarda yapıyorsan: `npm install` (bir kere) ve
-  `npm i -g vercel` + `vercel login` gerekir.
+- **Birlikte çalışma:** Repo collaborator'ları (ör. canyagiz) push edince de
+  site otomatik güncellenir. Push'tan önce `git pull` yapın (çakışma olmasın).
+- **Geri alma:** Netlify paneli → **Deploys** → eski bir deploy → **Publish
+  deploy** ile tek tıkla o sürüme dön.
+- **Build durumu:** Netlify paneli → **Deploys** sekmesinden canlı takip.
+- Domain/DNS Namecheap'te; Netlify SSL'i otomatik yeniler — dokunmaya gerek yok.
