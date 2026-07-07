@@ -288,10 +288,11 @@ export function Coin() {
               {c.rewardsLead}
             </p>
           </div>
-          <div className="mx-auto mt-10 grid max-w-3xl gap-5 sm:grid-cols-2">
+          <div className="mx-auto mt-10 grid max-w-4xl gap-5 sm:grid-cols-3">
             {[
-              { src: "/screens/protein_powder.glb", ...c.products[0] },
-              { src: "/screens/protein_sachet.glb", ...c.products[1] },
+              { src: "/screens/coin.glb", ...c.products[0] },
+              { src: "/screens/protein_powder.glb", ...c.products[1] },
+              { src: "/screens/protein_sachet.glb", ...c.products[2] },
             ].map((p) => (
               <div
                 key={p.src}

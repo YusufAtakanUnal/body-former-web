@@ -153,6 +153,7 @@ export const content = {
       rewardsTitle: "Coin'lerini gerçek ödüllere çevir",
       rewardsLead: "Partner supplement markalarından ürün ve indirimler — taradıkça kazan, harcadıkça al.",
       products: [
+        { name: "BodyFormer Coin", note: "Uygulama içi ödül puanı" },
         { name: "Protein Tozu", note: "Partner markalardan" },
         { name: "Protein Tozu", note: "Tek kullanımlık paket" },
       ],
@@ -413,6 +414,7 @@ export const content = {
       rewardsTitle: "Turn your Coin into real rewards",
       rewardsLead: "Products and discounts from partner supplement brands — earn by scanning, redeem by spending.",
       products: [
+        { name: "BodyFormer Coin", note: "In-app reward currency" },
         { name: "Protein Powder", note: "From partner brands" },
         { name: "Protein Powder", note: "Single-serve pack" },
       ],
