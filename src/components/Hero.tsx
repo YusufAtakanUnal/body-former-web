@@ -1,11 +1,20 @@
 "use client";
 
+import { useRef } from "react";
 import { useLang } from "@/i18n/LanguageProvider";
 import EmailForm from "./EmailForm";
 
 export default function Hero() {
   const { t } = useLang();
   const h = t.hero;
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const replay = () => {
+    const video = videoRef.current;
+    if (!video || !video.paused) return;
+    video.currentTime = 0;
+    video.play();
+  };
 
   return (
     <section
@@ -22,7 +31,15 @@ export default function Hero() {
           {h.title}
         </h1>
 
-        <img src="/logo.png" alt="BodyFormer" className="mt-6 h-[144px] w-auto sm:h-[202px]" />
+        <video
+          ref={videoRef}
+          src="/screens/logo-video.mp4"
+          autoPlay
+          muted
+          playsInline
+          onMouseEnter={replay}
+          className="mt-6 h-[144px] w-auto mix-blend-multiply sm:h-[202px]"
+        />
 
         <div className="rule mt-7" />
 
