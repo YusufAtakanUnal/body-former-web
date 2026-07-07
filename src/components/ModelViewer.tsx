@@ -11,7 +11,9 @@ type Props = {
 
 /**
  * Renders an interactive .glb with Google's <model-viewer> web component:
- * auto-rotates and can be dragged. Loaded lazily and client-only.
+ * auto-rotates and can be dragged. Starts fetching the model as soon as it
+ * mounts (rather than waiting until scrolled into view), so it's already
+ * loaded by the time the user scrolls down to see it.
  */
 export default function ModelViewer({ src, alt, className = "" }: Props) {
   useEffect(() => {
@@ -31,7 +33,7 @@ export default function ModelViewer({ src, alt, className = "" }: Props) {
     "shadow-intensity": "0.6",
     "shadow-softness": "1",
     exposure: "1.05",
-    loading: "lazy",
+    loading: "eager",
     reveal: "auto",
     class: className,
     style: { width: "100%", height: "100%", backgroundColor: "transparent" },
