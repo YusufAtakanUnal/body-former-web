@@ -1,8 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useLang } from "@/i18n/LanguageProvider";
-import EmailForm from "./EmailForm";
 
 export default function Hero() {
   const { t } = useLang();
@@ -15,6 +14,53 @@ export default function Hero() {
     video.currentTime = 0;
     video.play();
   };
+
+  // If the visitor doesn't scroll within ~1.5s of the logo animation finishing,
+  // glide them down to the "How it works" section. Any real scroll/keypress
+  // cancels it so we never fight the user.
+  useEffect(() => {
+    const video = videoRef.current;
+    let done = false;
+    let timer = 0;
+    const glide = () => {
+      if (done) return;
+      done = true;
+      document.getElementById("how")?.scrollIntoView({ behavior: "smooth" });
+    };
+    const arm = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(glide, 1500);
+    };
+    const cancel = () => {
+      done = true;
+      window.clearTimeout(timer);
+    };
+    // Prefer the exact end of the animation; fall back to metadata duration in
+    // case "ended" doesn't fire (e.g. autoplay quirks).
+    const onEnded = () => arm();
+    const onMeta = () => {
+      if (video) {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(glide, (video.duration || 5) * 1000 + 1500);
+      }
+    };
+    const opts = { passive: true } as const;
+    window.addEventListener("wheel", cancel, opts);
+    window.addEventListener("touchmove", cancel, opts);
+    window.addEventListener("keydown", cancel);
+    video?.addEventListener("ended", onEnded);
+    video?.addEventListener("loadedmetadata", onMeta);
+    if (video?.readyState && video.readyState >= 1) onMeta();
+
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("wheel", cancel);
+      window.removeEventListener("touchmove", cancel);
+      window.removeEventListener("keydown", cancel);
+      video?.removeEventListener("ended", onEnded);
+      video?.removeEventListener("loadedmetadata", onMeta);
+    };
+  }, []);
 
   return (
     <section
@@ -53,16 +99,7 @@ export default function Hero() {
           {h.subtitle}
         </p>
 
-        <div className="mt-9 w-full max-w-md">
-          <EmailForm
-            placeholder={h.emailPlaceholder}
-            cta={h.emailCta}
-            success={t.waitlist.success}
-          />
-          <p className="mt-2.5 text-xs text-muted">{h.emailNote}</p>
-        </div>
-
-        <dl className="mt-14 grid w-full max-w-2xl grid-cols-3 gap-6 border-t border-line pt-8">
+        <dl className="mt-12 grid w-full max-w-2xl grid-cols-3 gap-6 border-t border-line pt-8">
           {[
             { v: h.stat1, s: h.stat1sub },
             { v: h.stat2, s: h.stat2sub },

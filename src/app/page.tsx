@@ -1,17 +1,7 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import {
-  Problem,
-  How,
-  Twin,
-  AppShowcase,
-  Compete,
-  Coin,
-  Privacy,
-  Gyms,
-  Waitlist,
-  Faq,
-} from "@/components/Sections";
+import Journey from "@/components/Journey";
+import { Gyms, Waitlist, Faq } from "@/components/Sections";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -20,16 +10,10 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <Hero />
-        <Problem />
-        <How />
-        <Twin />
-        <AppShowcase />
-        <Compete />
-        <Coin />
-        <Privacy />
-        <Gyms />
-        <Waitlist />
+        <Journey />
         <Faq />
+        <Waitlist />
+        <Gyms />
       </main>
       <Footer />
     </>

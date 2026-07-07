@@ -27,16 +27,6 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#twin" className="text-muted hover:text-foreground">
-                  {f.links.features}
-                </a>
-              </li>
-              <li>
-                <a href="#compete" className="text-muted hover:text-foreground">
-                  {f.links.compete}
-                </a>
-              </li>
-              <li>
                 <a href="#gyms" className="text-muted hover:text-foreground">
                   {f.links.gyms}
                 </a>

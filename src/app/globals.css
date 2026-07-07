@@ -62,6 +62,53 @@ body {
   transform: none;
 }
 
+/* Vertical marquee — the looping measurements list. The track holds the items
+   twice; translating it by -50% swaps seamlessly to the duplicate. */
+@keyframes marquee-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee-y 20s linear infinite;
+}
+.marquee-mask:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Tab-panel entrance — plays each time the active panel remounts. */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.panel-in {
+  animation: fade-in-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Gentle upward bob to nudge the user toward the next tab. */
+@keyframes tab-nudge {
+  0%,
+  70%,
+  100% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-5px);
+  }
+}
+.tab-nudge {
+  animation: tab-nudge 1.4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -70,6 +117,15 @@ body {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .marquee-track {
+    animation: none;
+  }
+  .panel-in {
+    animation: none;
+  }
+  .tab-nudge {
+    animation: none;
   }
 }
 

@@ -17,8 +17,6 @@ export default function Header() {
 
   const links = [
     { href: "#how", label: t.nav.how },
-    { href: "#twin", label: t.nav.features },
-    { href: "#compete", label: t.nav.compete },
     { href: "#gyms", label: t.nav.gyms },
     { href: "#faq", label: t.nav.faq },
   ];

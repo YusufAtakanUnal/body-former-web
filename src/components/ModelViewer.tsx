@@ -7,6 +7,12 @@ type Props = {
   src: string;
   alt: string;
   className?: string;
+  /**
+   * model-viewer load strategy. Defaults to "eager" so most models are ready by
+   * the time they scroll into view. Pass "lazy" for very heavy models (e.g. the
+   * ~39MB coin) so they only fetch when near the viewport.
+   */
+  loading?: "eager" | "lazy";
 };
 
 /**
@@ -15,7 +21,12 @@ type Props = {
  * mounts (rather than waiting until scrolled into view), so it's already
  * loaded by the time the user scrolls down to see it.
  */
-export default function ModelViewer({ src, alt, className = "" }: Props) {
+export default function ModelViewer({
+  src,
+  alt,
+  className = "",
+  loading = "eager",
+}: Props) {
   useEffect(() => {
     // registers the <model-viewer> custom element
     import("@google/model-viewer");
@@ -33,7 +44,7 @@ export default function ModelViewer({ src, alt, className = "" }: Props) {
     "shadow-intensity": "0.6",
     "shadow-softness": "1",
     exposure: "1.05",
-    loading: "eager",
+    loading,
     reveal: "auto",
     class: className,
     style: { width: "100%", height: "100%", backgroundColor: "transparent" },

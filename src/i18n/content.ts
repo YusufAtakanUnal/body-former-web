@@ -4,8 +4,6 @@ export const content = {
   tr: {
     nav: {
       how: "Nasıl Çalışır",
-      features: "Özellikler",
-      compete: "Rekabet",
       gyms: "Salonlar",
       faq: "SSS",
       cta: "Erken Erişim",
@@ -16,12 +14,9 @@ export const content = {
       tagline: "Rekabetçi vücut gelişim takip uygulaması.",
       subtitle:
         "Donanımsız 3D dijital ikiz, doğrulanmış sosyal rekabet ve ödüllü klan ligleri. Sadece telefon kameran.",
-      emailPlaceholder: "E-posta adresin",
-      emailCta: "Listeye katıl",
-      emailNote: "Lansman için ilk sen haberdar ol. Spam yok.",
       stat1: "8 Fotoğraf",
       stat1sub: "Donanım gerekmez",
-      stat2: "16 Ölçüm",
+      stat2: "15 Ölçüm",
       stat2sub: "Saniyeler içinde",
       stat3: "3D Avatar",
       stat3sub: "Kişiye özel dijital ikiz",
@@ -32,174 +27,90 @@ export const content = {
       hint: "Döndürmek için sürükle",
       caption: "Gerçek bir BodyFormer taraması — 3DGS avatar",
     },
-    problem: {
-      eyebrow: "01 · Problem",
-      title:
-        "Geleneksel sistemler gerçek gelişimi göstermiyor.",
-      lead: "Tartı yanıltır, ayna alışır, pahalı cihazlar sadece tablo verir. Gelişimi objektif ve görsel kanıta dönüştüren bir platform yoktu.",
-      cards: [
-        {
-          tag: "Yanıltıcı tartılar",
-          body: "Yağ kaybedip kas kazanan kişi tartıda hareket görmez. Motivasyon düşer, spor bırakılır.",
-        },
-        {
-          tag: "Sosyal kanıt açığı",
-          body: "Gelişimi doğrulayan bir platform yok. Mevcut kanal: filtreli Instagram fotoğrafları.",
-        },
-        {
-          tag: "Görünmeyen değişim",
-          body: "Aynaya her gün bakılır, değişim fark edilmez. Aylar süren ilerleme gözden kaçar.",
-        },
-        {
-          tag: "Pahalı cihaz tuzağı",
-          body: "Salonlar on binlerce dolarlık cihazlara mahkum. Çıktı: görsel kanıtı olmayan 2D tablolar.",
-        },
-      ],
-    },
-    how: {
-      eyebrow: "02 · Nasıl Çalışır",
-      title: "Dört adımda dijital ikizin.",
-      lead: "Özel donanım, sensör ya da arka plan perdesi gerekmez. Sadece telefonunla.",
-      steps: [
-        {
-          n: "01",
-          t: "Tara",
-          d: "Telefon kamerasıyla 8 açıdan fotoğraf çek. Saniyeler sürer.",
-        },
-        {
-          n: "02",
-          t: "AI İşler",
-          d: "Tescilli AI pipeline silüet, derinlik ve uzuv haritasını çıkarır.",
-        },
-        {
-          n: "03",
-          t: "Sonuç",
-          d: "16 vücut ölçüsü ve fotogerçekçi 3D avatarın ekrana düşer.",
-        },
-        {
-          n: "04",
-          t: "Yarış",
-          d: "Salonun bir klan olur; aylık savaşlarda Coin ve rank kazan.",
-        },
-      ],
-    },
-    twin: {
-      eyebrow: "03 · Dijital İkiz",
-      title: "8 fotoğraf. 3D model. 16 ölçüm.",
-      lead: "Gelişimin rakamların ötesinde görsel kanıta dönüşüyor. Ham görüntülerin senin cihazında şifreli kalır.",
-      deckHint: "8 giriş fotoğrafı · üstüne gel",
-      appPreview: "Uygulamadan",
-      spinHint: "Çevirmek için sağa-sola hareket ettir",
-      photoLabel: "Giriş fotoğrafı",
-      maskLabel: "Normal map · silüet",
-      aiEngine: "AI Engine",
-      output: "3D Model",
-      measurementsTitle: "16 Bölge Ölçümü",
-      pipeline: {
-        eyebrow: "Fotoğraftan modele",
-        title: "8 fotoğraf, saniyeler içinde 3D modele dönüşüyor.",
-        lead: "Tescilli AI pipeline her fotoğraftan silüet, derinlik ve normal haritası çıkarır; bunları birleştirip dokulu 3D avatarı oluşturur.",
-        steps: ["Giriş fotoğrafı", "AI · Normal harita", "3D Model"],
+    journey: {
+      eyebrow: "01 · Nasıl Çalışır",
+      title: "İndir, taran, yarış, ödülünü al.",
+      lead: "BodyFormer'ın tamamı tek bir akışta — hepsi telefonunda, saniyeler içinde.",
+      tabs: { scan: "Tara", compete: "Yarış", rewards: "Ödüller" },
+      scan: {
+        steps: [
+          {
+            n: "01",
+            t: "İndir & abone ol",
+            d: "Play Store veya App Store'dan indir, kaydol ve abone ol.",
+          },
+          {
+            n: "02",
+            t: "8 AI fotoğrafı çek",
+            d: "Uygulamada 8 fotoğrafını çek, boyunu ve kilonu gir.",
+          },
+          {
+            n: "03",
+            t: "Sonucunu al",
+            d: "3D modelin ve 15 ölçümün saniyeler içinde hazır.",
+          },
+        ],
+        photoLabel: "Giriş fotoğrafı",
+        aiEngine: "AI ENGINE",
+        maskLabel: "Normal map · silüet",
+        output: "3D Model",
+        measurementsTitle: "15 Bölge Ölçümü",
+        measurements: [
+          "Boyun Çevresi",
+          "Göğüs Çevresi",
+          "Bel Çevresi",
+          "Pazı Çevresi",
+          "Dirsek Çevresi",
+          "Ön Kol Çevresi",
+          "Bilek Çevresi",
+          "Uyluk / Orta Bacak Çevresi",
+          "Baldır Çevresi",
+          "Omuz Genişliği",
+          "Kalça Genişliği",
+          "Gövde Uzunluğu",
+          "Üst Bacak Uzunluğu",
+          "Alt Bacak Uzunluğu",
+          "Vücut Yağı",
+        ],
+        privacy:
+          "Fotoğrafların ve ölçümlerin uçtan uca şifrelenerek gönderilir — güvende.",
       },
-      measurements: [
-        "Boyun çevresi",
-        "Omuz genişliği",
-        "Göğüs çevresi",
-        "Bel çevresi",
-        "Kalça çevresi",
-        "Bicep çevresi",
-        "Ön kol çevresi",
-        "Bilek çevresi",
-        "Dirsek çevresi",
-        "Üst bacak çevresi",
-        "Baldır çevresi",
-        "Ayak bileği çevresi",
-        "Üst bacak uzunluğu",
-        "Alt bacak uzunluğu",
-        "Boy",
-        "Vücut hacmi",
-      ],
-    },
-    compete: {
-      eyebrow: "04 · Rekabet",
-      title: "Klan savaşları. Doğrulanmış rekabet.",
-      lead: "Her spor salonu bir klandır. Filtreli fotoğraflar değil, BodyFormer onaylı gerçek 3D modeller yarışır.",
-      cards: [
-        {
-          t: "Salon İçi (Intra-Klan)",
-          d: "Üyeler kendi klanlarında aylık BodyFormer Skoru ile yarışır. Ay sonu ilk 3 Coin kazanır.",
-        },
-        {
-          t: "Salonlar Arası (Inter-Klan)",
-          d: "Aktif üyeler karşı klandan bir rakip seçip düelloya girer. Galip, klanına puan kazandırır.",
-        },
-        {
-          t: "Streak Madalyonları",
-          d: "Sürekli kazanan kişi ve klanlara özel rozetler ve streak madalyonları tanımlanır.",
-        },
-      ],
-    },
-    coin: {
-      eyebrow: "05 · Ekonomi",
-      title: "BodyFormer Coin ile ödüllü döngü.",
-      lead: "Rekabeti gerçek bir ödül döngüsüne çeviriyoruz. Kazandığın Coin'leri partner supplement markalarında ürün ve indirime çevir.",
-      rows: [
-        { a: "Disiplin (4 taramayı tamamla)", c: "200" },
-        { a: "Intra-klan 1. / 2. / 3.", c: "1.000 / 600 / 400" },
-        { a: "Inter-klan galibiyeti", c: "300" },
-        { a: "Arkadaş daveti", c: "500" },
-      ],
-      note: "BodyFormer Coin kapalı-devre bir sadakat puanıdır — kripto para veya blockchain değildir.",
-      rewardsTitle: "Coin'lerini gerçek ödüllere çevir",
-      rewardsLead: "Partner supplement markalarından ürün ve indirimler — taradıkça kazan, harcadıkça al.",
-      products: [
-        { name: "BodyFormer Coin", note: "Uygulama içi ödül puanı" },
-        { name: "Protein Tozu", note: "Partner markalardan" },
-        { name: "Protein Tozu", note: "Tek kullanımlık paket" },
-      ],
-      productHint: "Döndürmek için sürükle",
-      graphTitle: "Sen döngünün merkezindesin",
-      graphLead: "Sen verirsin, karşılığında ölçüm, rank, Coin ve gerçek ödüller alırsın — ağırlıklı kenarlarla.",
-      nodes: { user: "Sen", brand: "Supplement Markası" },
-      edges: {
-        userToBf: "$5/ay · 8 foto",
-        bfToUser: "16 ölçüm · rank · Coin",
-        brandToUser: "Coin ile ürün / indirim",
-        bfBrand: "Komisyon · ürün",
+      compete: {
+        title: "Coin kazanmanın üç yolu.",
+        lead: "Filtreli fotoğraflar değil — BodyFormer onaylı gerçek gelişimin yarışır.",
+        modes: [
+          {
+            k: "01",
+            t: "Bireysel",
+            d: "Ölçümlerindeki pozitif değişimi takip et; her gelişiminde Coin kazan.",
+          },
+          {
+            k: "02",
+            t: "Klan İçi",
+            d: "Klanının en çok gelişen ilk 3 üyesi arasına gir, Coin kazan.",
+          },
+          {
+            k: "03",
+            t: "Klanlar Arası",
+            d: "Klanın karşı klanla savaşı kazanırsa, tüm klan Coin kazanır.",
+          },
+        ],
+        earnTitle: "Geliştikçe Coin kazanırsın",
+        earnLead:
+          "Ölçümlerindeki her pozitif değişim sana BodyFormer Coin olarak döner.",
+        coinLabel: "BodyFormer Coin",
       },
-    },
-    privacy: {
-      eyebrow: "06 · Gizlilik",
-      title: "Tasarımdan gelen gizlilik.",
-      lead: "Ham fotoğrafların ve 3D taramaların, sen paylaşmayı seçmedikçe geliştiriciler dahil kimse tarafından görülemez.",
-      points: [
-        {
-          t: "Anahtar cihazda kalır",
-          d: "Şifre çözme anahtarı yalnızca senin cihazında saklanır, sunucuya çıkmaz.",
-        },
-        {
-          t: "Uçtan uca şifreli",
-          d: "Cihaz–sunucu iletişiminden yalnızca şifrelenmiş veri geçer.",
-        },
-        {
-          t: "Sıfır-bilgi (Zero-Knowledge)",
-          d: "Veriler sunucuda sıfır-bilgi mantığıyla şifreli durur. Biz bile göremeyiz.",
-        },
-      ],
-    },
-    showcase: {
-      eyebrow: "07 · Uygulama",
-      title: "Cebinde bir gelişim laboratuvarı.",
-      lead: "Her ölçümün zaman içindeki seyrini izle, body fat trendini gör, klanında yüksel.",
-      highlights: [
-        { v: "16 ölçüm", s: "Her taramada" },
-        { v: "Aylık trend", s: "Body fat & çevreler" },
-        { v: "Klan ligi", s: "Sıralama & ödül" },
-        { v: "Şifreli", s: "Sadece sende" },
-      ],
+      rewards: {
+        title: "Coin'lerini gerçek ödüllere çevir.",
+        lead: "Biriken Coin'lerini anlaşmalı supplement markalarında indirime ve ürüne çevir.",
+        spend: "Coin'lerini harca",
+        earn: "Supplement al",
+        coinLabel: "BodyFormer Coin",
+        supplementLabel: "Supplement",
+      },
     },
     gyms: {
-      eyebrow: "08 · Salonlar İçin",
+      eyebrow: "03 · Salonlar İçin",
       title: "Salonunu bir klana dönüştür.",
       lead: "Üyelerine gelişimlerini kanıtla, bağlılığı artır. On binlerce dolarlık cihazlara gerek yok — sadece BodyFormer.",
       bullets: [
@@ -220,7 +131,7 @@ export const content = {
       note: "Formlar şu an demo amaçlıdır.",
     },
     faq: {
-      eyebrow: "09 · SSS",
+      eyebrow: "02 · SSS",
       title: "Sık sorulan sorular.",
       items: [
         {
@@ -252,8 +163,6 @@ export const content = {
       legal: "Yasal",
       links: {
         how: "Nasıl Çalışır",
-        features: "Özellikler",
-        compete: "Rekabet",
         gyms: "Salonlar",
         faq: "SSS",
         privacy: "Gizlilik Politikası",
@@ -266,8 +175,6 @@ export const content = {
   en: {
     nav: {
       how: "How it works",
-      features: "Features",
-      compete: "Compete",
       gyms: "For Gyms",
       faq: "FAQ",
       cta: "Get early access",
@@ -278,12 +185,9 @@ export const content = {
       tagline: "The competitive body-growth tracking app.",
       subtitle:
         "A hardware-free 3D digital twin, verified social competition, and reward-driven clan leagues. Just your phone camera.",
-      emailPlaceholder: "Your email",
-      emailCta: "Join the list",
-      emailNote: "Be first to know at launch. No spam.",
       stat1: "8 Photos",
       stat1sub: "No hardware needed",
-      stat2: "16 Measurements",
+      stat2: "15 Measurements",
       stat2sub: "In seconds",
       stat3: "3D Avatar",
       stat3sub: "Your personal digital twin",
@@ -294,173 +198,90 @@ export const content = {
       hint: "Drag to rotate",
       caption: "A real BodyFormer scan — 3DGS avatar",
     },
-    problem: {
-      eyebrow: "01 · Problem",
-      title: "Traditional systems don't show real progress.",
-      lead: "Scales mislead, mirrors adapt, expensive machines only print tables. There was no platform turning progress into objective, visual proof.",
-      cards: [
-        {
-          tag: "Misleading scales",
-          body: "Someone losing fat and gaining muscle sees no movement on the scale. Motivation drops, training stops.",
-        },
-        {
-          tag: "Social proof gap",
-          body: "No platform verifies progress. The current channel: filtered Instagram photos.",
-        },
-        {
-          tag: "Invisible change",
-          body: "You look in the mirror daily and miss the change. Months of progress go unnoticed.",
-        },
-        {
-          tag: "Costly hardware trap",
-          body: "Gyms are stuck with tens-of-thousands-of-dollar machines. Output: 2D tables with no visual proof.",
-        },
-      ],
-    },
-    how: {
-      eyebrow: "02 · How it works",
-      title: "Your digital twin in four steps.",
-      lead: "No special hardware, sensors, or backdrop required. Just your phone.",
-      steps: [
-        {
-          n: "01",
-          t: "Scan",
-          d: "Capture 8 angles with your phone camera. Takes seconds.",
-        },
-        {
-          n: "02",
-          t: "AI Engine",
-          d: "A proprietary AI pipeline extracts silhouette, depth and a limb map.",
-        },
-        {
-          n: "03",
-          t: "Result",
-          d: "16 body measurements and a photorealistic 3D avatar appear.",
-        },
-        {
-          n: "04",
-          t: "Compete",
-          d: "Your gym becomes a clan; earn Coin and rank in monthly battles.",
-        },
-      ],
-    },
-    twin: {
-      eyebrow: "03 · Digital Twin",
-      title: "8 photos. A 3D model. 16 measurements.",
-      lead: "Your progress becomes visual proof beyond the numbers. Your raw images stay encrypted on your device.",
-      deckHint: "8 input photos · hover to open",
-      appPreview: "From the app",
-      spinHint: "Move left / right to spin",
-      photoLabel: "Input photo",
-      maskLabel: "Normal map · silhouette",
-      aiEngine: "AI Engine",
-      output: "3D Model",
-      measurementsTitle: "16 Region Measurements",
-      pipeline: {
-        eyebrow: "From photo to model",
-        title: "8 photos become a 3D model in seconds.",
-        lead: "A proprietary AI pipeline extracts a silhouette, depth and a normal map from each photo, then fuses them into a textured 3D avatar.",
-        steps: ["Input photo", "AI · Normal map", "3D Model"],
+    journey: {
+      eyebrow: "01 · How it works",
+      title: "Download, scan, compete, get rewarded.",
+      lead: "All of BodyFormer in one flow — on your phone, in seconds.",
+      tabs: { scan: "Scan", compete: "Compete", rewards: "Rewards" },
+      scan: {
+        steps: [
+          {
+            n: "01",
+            t: "Download & subscribe",
+            d: "Get it on the Play Store or App Store, sign up and subscribe.",
+          },
+          {
+            n: "02",
+            t: "Take 8 AI photos",
+            d: "Capture 8 photos in the app, enter your height and weight.",
+          },
+          {
+            n: "03",
+            t: "Get your result",
+            d: "Your 3D model and 15 measurements are ready in seconds.",
+          },
+        ],
+        photoLabel: "Input photo",
+        aiEngine: "AI ENGINE",
+        maskLabel: "Normal map · silhouette",
+        output: "3D Model",
+        measurementsTitle: "15 Region Measurements",
+        measurements: [
+          "Neck Circumference",
+          "Chest Circumference",
+          "Waist Circumference",
+          "Bicep Circumference",
+          "Elbow Circumference",
+          "Forearm Circumference",
+          "Wrist Circumference",
+          "Thigh Circumference",
+          "Calf Circumference",
+          "Shoulder Width",
+          "Hip Width",
+          "Torso Length",
+          "Upper Leg Length",
+          "Lower Leg Length",
+          "Body Fat",
+        ],
+        privacy:
+          "Your photos and measurements are sent end-to-end encrypted — safe.",
       },
-      measurements: [
-        "Neck circumference",
-        "Shoulder width",
-        "Chest circumference",
-        "Waist circumference",
-        "Hip circumference",
-        "Bicep circumference",
-        "Forearm circumference",
-        "Wrist circumference",
-        "Elbow circumference",
-        "Thigh circumference",
-        "Calf circumference",
-        "Ankle circumference",
-        "Upper leg length",
-        "Lower leg length",
-        "Height",
-        "Body volume",
-      ],
-    },
-    compete: {
-      eyebrow: "04 · Compete",
-      title: "Clan wars. Verified competition.",
-      lead: "Every gym is a clan. Not filtered photos — real, BodyFormer-verified 3D models compete.",
-      cards: [
-        {
-          t: "Intra-Clan",
-          d: "Members compete on monthly BodyFormer Score within their own clan. Top 3 earn Coin at month-end.",
-        },
-        {
-          t: "Inter-Clan",
-          d: "Active members pick a rival from the opposing clan and duel. The winner scores points for their clan.",
-        },
-        {
-          t: "Streak Medallions",
-          d: "Consistent winners — people and clans — unlock exclusive badges and streak medallions.",
-        },
-      ],
-    },
-    coin: {
-      eyebrow: "05 · Economy",
-      title: "A reward loop powered by BodyFormer Coin.",
-      lead: "We turn competition into a real reward loop. Convert the Coin you earn into products and discounts from partner supplement brands.",
-      rows: [
-        { a: "Discipline (complete 4 scans)", c: "200" },
-        { a: "Intra-clan 1st / 2nd / 3rd", c: "1,000 / 600 / 400" },
-        { a: "Inter-clan win", c: "300" },
-        { a: "Referral", c: "500" },
-      ],
-      note: "BodyFormer Coin is a closed-loop loyalty point — it is not a cryptocurrency or blockchain.",
-      rewardsTitle: "Turn your Coin into real rewards",
-      rewardsLead: "Products and discounts from partner supplement brands — earn by scanning, redeem by spending.",
-      products: [
-        { name: "BodyFormer Coin", note: "In-app reward currency" },
-        { name: "Protein Powder", note: "From partner brands" },
-        { name: "Protein Powder", note: "Single-serve pack" },
-      ],
-      productHint: "Drag to rotate",
-      graphTitle: "You're at the centre of the loop",
-      graphLead: "You give a little; you get measurements, rank, Coin and real rewards back — as weighted edges.",
-      nodes: { user: "You", brand: "Supplement Brand" },
-      edges: {
-        userToBf: "$5/mo · 8 photos",
-        bfToUser: "16 metrics · rank · Coin",
-        brandToUser: "Products / discounts via Coin",
-        bfBrand: "Commission · product",
+      compete: {
+        title: "Three ways to earn Coin.",
+        lead: "Not filtered photos — your real, BodyFormer-verified progress competes.",
+        modes: [
+          {
+            k: "01",
+            t: "Individual",
+            d: "Track the positive change in your measurements; earn Coin with every improvement.",
+          },
+          {
+            k: "02",
+            t: "Intra-clan",
+            d: "Finish among the top 3 most-improved members of your clan to earn Coin.",
+          },
+          {
+            k: "03",
+            t: "Inter-clan",
+            d: "When your clan wins its war against another clan, the whole clan earns Coin.",
+          },
+        ],
+        earnTitle: "Earn Coin as you improve",
+        earnLead:
+          "Every positive change in your measurements comes back to you as BodyFormer Coin.",
+        coinLabel: "BodyFormer Coin",
       },
-    },
-    privacy: {
-      eyebrow: "06 · Privacy",
-      title: "Privacy by design.",
-      lead: "Your raw photos and 3D scans are visible to no one — including the developers — unless you choose to share them.",
-      points: [
-        {
-          t: "The key stays on-device",
-          d: "Your decryption key is stored only on your device and never leaves it.",
-        },
-        {
-          t: "End-to-end encrypted",
-          d: "Only encrypted data ever moves between your device and the server.",
-        },
-        {
-          t: "Zero-Knowledge",
-          d: "Data rests on the server with zero-knowledge encryption. Not even we can read it.",
-        },
-      ],
-    },
-    showcase: {
-      eyebrow: "07 · The App",
-      title: "A progress lab in your pocket.",
-      lead: "Track every measurement over time, watch your body-fat trend, and climb your clan.",
-      highlights: [
-        { v: "16 metrics", s: "Every scan" },
-        { v: "Monthly trend", s: "Body fat & girths" },
-        { v: "Clan league", s: "Ranks & rewards" },
-        { v: "Encrypted", s: "Yours only" },
-      ],
+      rewards: {
+        title: "Turn your Coin into real rewards.",
+        lead: "Convert the Coin you accumulate into discounts and products from partner supplement brands.",
+        spend: "Spend your Coin",
+        earn: "Get supplements",
+        coinLabel: "BodyFormer Coin",
+        supplementLabel: "Supplement",
+      },
     },
     gyms: {
-      eyebrow: "08 · For Gyms",
+      eyebrow: "03 · For Gyms",
       title: "Turn your gym into a clan.",
       lead: "Prove progress to your members and boost retention. No tens-of-thousands-of-dollar machines — just BodyFormer.",
       bullets: [
@@ -481,7 +302,7 @@ export const content = {
       note: "Forms are currently for demo purposes.",
     },
     faq: {
-      eyebrow: "09 · FAQ",
+      eyebrow: "02 · FAQ",
       title: "Frequently asked questions.",
       items: [
         {
@@ -513,8 +334,6 @@ export const content = {
       legal: "Legal",
       links: {
         how: "How it works",
-        features: "Features",
-        compete: "Compete",
         gyms: "For Gyms",
         faq: "FAQ",
         privacy: "Privacy Policy",
