@@ -63,15 +63,15 @@ export default function TwinPipeline({
 
   return (
     <div className={className}>
-      {/* Always a horizontal row — never stacks, even on phones. Swipe if it
-          doesn't fully fit the viewport. Hovering pauses the auto-cycle. */}
+      {/* Always a horizontal row, sized to fit the viewport — no scrolling.
+          Hovering pauses the auto-cycle. */}
       <div
-        className="flex flex-row items-center justify-start gap-2 overflow-x-auto px-1 py-1 sm:justify-center lg:gap-4"
+        className="flex flex-row items-center justify-center gap-1.5 sm:gap-2 lg:gap-4"
         onMouseEnter={() => (pausedRef.current = true)}
         onMouseLeave={() => (pausedRef.current = false)}
       >
         {/* Stage 1 — input photo, auto-cycling */}
-        <div className="w-28 shrink-0 sm:w-40 md:w-52 lg:w-full lg:max-w-[240px]">
+        <div className="min-w-0 flex-1 sm:w-40 sm:flex-none md:w-52 lg:w-full lg:max-w-[240px]">
           <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl shadow-[0_24px_50px_-24px_rgba(0,0,0,0.5)]">
             {photos.map((src, idx) => (
               // eslint-disable-next-line @next/next/no-img-element
@@ -87,18 +87,18 @@ export default function TwinPipeline({
               />
             ))}
             {/* Progress dots (non-interactive) */}
-            <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1.5 rounded-full bg-foreground/70 px-2 py-1 backdrop-blur">
+            <div className="absolute bottom-1 left-1/2 flex -translate-x-1/2 gap-1 rounded-full bg-foreground/70 px-1.5 py-0.5 backdrop-blur sm:bottom-2 sm:gap-1.5 sm:px-2 sm:py-1">
               {photos.slice(0, n).map((src, idx) => (
                 <span
                   key={src}
-                  className={`h-1.5 w-1.5 rounded-full transition-colors ${
+                  className={`h-1 w-1 rounded-full transition-colors sm:h-1.5 sm:w-1.5 ${
                     idx === i ? "bg-white" : "bg-white/40"
                   }`}
                 />
               ))}
             </div>
           </div>
-          <p className="mt-3 text-center text-sm font-semibold">
+          <p className="mt-1.5 text-center text-[10px] font-semibold sm:mt-3 sm:text-sm">
             {labels.input}
           </p>
         </div>
@@ -106,7 +106,7 @@ export default function TwinPipeline({
         <Arrow label={labels.aiEngine} />
 
         {/* Stage 2 — AI normal map (transparent, floats) */}
-        <div className="w-28 shrink-0 sm:w-40 md:w-52 lg:w-full lg:max-w-[240px]">
+        <div className="min-w-0 flex-1 sm:w-40 sm:flex-none md:w-52 lg:w-full lg:max-w-[240px]">
           <div className="relative aspect-[3/4] w-full">
             {normals.map((src, idx) => (
               // eslint-disable-next-line @next/next/no-img-element
@@ -121,7 +121,7 @@ export default function TwinPipeline({
               />
             ))}
           </div>
-          <p className="mt-3 text-center text-sm font-semibold">
+          <p className="mt-1.5 text-center text-[10px] font-semibold sm:mt-3 sm:text-sm">
             {labels.normal}
           </p>
         </div>
@@ -129,7 +129,7 @@ export default function TwinPipeline({
         <Arrow />
 
         {/* Stage 3 — 3D model output (white-blended, floats) */}
-        <div className="w-28 shrink-0 sm:w-40 md:w-52 lg:w-full lg:max-w-[240px]">
+        <div className="min-w-0 flex-1 sm:w-40 sm:flex-none md:w-52 lg:w-full lg:max-w-[240px]">
           <div className="aspect-[3/4] w-full">
             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <video
@@ -143,7 +143,7 @@ export default function TwinPipeline({
               className="h-full w-full object-contain"
             />
           </div>
-          <p className="mt-3 text-center text-sm font-semibold">
+          <p className="mt-1.5 text-center text-[10px] font-semibold sm:mt-3 sm:text-sm">
             {labels.output}
           </p>
         </div>
@@ -156,18 +156,18 @@ function Arrow({ label }: { label?: string }) {
   return (
     <div className="flex shrink-0 flex-col items-center justify-center gap-1 text-muted">
       {label && (
-        <span className="text-center text-[10px] font-semibold uppercase tracking-wider">
+        <span className="hidden text-center text-[10px] font-semibold uppercase tracking-wider sm:inline">
           {label}
         </span>
       )}
       <svg
-        width="22"
-        height="22"
+        width="14"
+        height="14"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.6"
-        className="shrink-0 sm:h-7 sm:w-7"
+        className="h-[14px] w-[14px] shrink-0 sm:h-7 sm:w-7"
       >
         <path d="M5 12h14M13 6l6 6-6 6" />
       </svg>

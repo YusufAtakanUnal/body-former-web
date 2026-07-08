@@ -23,11 +23,14 @@ const NEXT_TAB: Record<Tab, Tab | null> = {
 };
 
 // The nudge bob starts slow and ramps up the longer it's been inviting a
-// click, so it gets harder to ignore the longer the user waits.
+// click, so it gets harder to ignore the longer the user waits. The ramp is
+// linear over a full 30s and updated in small, frequent steps so the change
+// in animation-duration is imperceptible tick-to-tick (a big jump every
+// update looks like a stutter/frame drop).
 const NUDGE_START_S = 1.3;
 const NUDGE_FLOOR_S = 0.45;
-const NUDGE_DECAY = 0.88;
-const NUDGE_TICK_MS = 500;
+const NUDGE_RAMP_MS = 30000;
+const NUDGE_TICK_MS = 100;
 
 /**
  * The single dynamic "How it works" section — the page centerpiece. Three tabs
@@ -59,8 +62,10 @@ export default function Journey() {
     if (prefersReduced) return;
 
     setNudgeSec(NUDGE_START_S);
+    const start = Date.now();
     const id = window.setInterval(() => {
-      setNudgeSec((s) => Math.max(NUDGE_FLOOR_S, s * NUDGE_DECAY));
+      const t = Math.min(1, (Date.now() - start) / NUDGE_RAMP_MS);
+      setNudgeSec(NUDGE_START_S - (NUDGE_START_S - NUDGE_FLOOR_S) * t);
     }, NUDGE_TICK_MS);
     return () => window.clearInterval(id);
   }, [nextTab]);
@@ -137,16 +142,18 @@ function ScanPanel({ j }: { j: Content["journey"] }) {
   const s = j.scan;
   return (
     <div className="space-y-16">
-      {/* Steps: download & subscribe → 8 photos + height/weight → result */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      {/* Steps: download & subscribe → 8 photos + height/weight → result.
+          Always a horizontal row, sized to fit the viewport — no scrolling. */}
+      <div className="flex flex-row gap-2 sm:gap-4">
         {s.steps.map((step) => (
           <div
             key={step.n}
-            className="rounded-2xl border border-line bg-surface p-6"
+            className="min-w-0 flex-1 rounded-2xl border border-line bg-surface p-3 sm:p-6"
           >
-            <span className="font-mono text-sm text-muted">{step.n}</span>
-            <h3 className="mt-4 text-lg font-bold">{step.t}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted">{step.d}</p>
+            <h3 className="text-sm font-bold sm:text-lg">{step.t}</h3>
+            <p className="mt-1.5 text-xs leading-snug text-muted sm:mt-2 sm:text-sm sm:leading-relaxed">
+              {step.d}
+            </p>
           </div>
         ))}
       </div>
@@ -190,18 +197,18 @@ function CompetePanel({ j }: { j: Content["journey"] }) {
         <h3 className="text-2xl font-bold tracking-tight">{c.title}</h3>
         <p className="mt-3 text-sm leading-relaxed text-muted">{c.lead}</p>
       </div>
-      {/* Always a horizontal row — never stacks, even on phones. Swipe if it
-          doesn't fully fit the viewport. */}
-      <div className="mt-12 flex justify-start gap-4 overflow-x-auto px-1 py-1 sm:justify-center">
+      {/* Always a horizontal row, sized to fit the viewport — no scrolling. */}
+      <div className="mt-12 flex flex-row gap-2 sm:gap-4">
         {c.modes.map((m, idx) => (
           <Reveal
             key={m.k}
             delay={idx * 80}
-            className="w-56 shrink-0 rounded-2xl border border-line bg-surface p-6 sm:w-64 sm:p-7"
+            className="min-w-0 flex-1 rounded-2xl border border-line bg-surface p-3 sm:p-7"
           >
-            <span className="font-mono text-sm text-muted">{m.k}</span>
-            <h4 className="mt-6 text-xl font-bold">{m.t}</h4>
-            <p className="mt-2 text-sm leading-relaxed text-muted">{m.d}</p>
+            <h4 className="text-sm font-bold sm:text-xl">{m.t}</h4>
+            <p className="mt-1.5 text-xs leading-snug text-muted sm:mt-2 sm:text-sm sm:leading-relaxed">
+              {m.d}
+            </p>
           </Reveal>
         ))}
       </div>
@@ -239,11 +246,11 @@ function RewardsPanel({ j }: { j: Content["journey"] }) {
       </div>
 
       {/* Two-way exchange, models floating on the page (no cards): spend Coin
-          → supplements, and back. Always a horizontal row — never stacks,
-          even on phones. Swipe if it doesn't fully fit the viewport. */}
-      <div className="mt-14 flex flex-row items-center justify-start gap-4 overflow-x-auto px-1 py-1 sm:justify-center sm:gap-6 lg:gap-10">
+          → supplements, and back. Always a horizontal row, sized to fit the
+          viewport — no scrolling. Text labels only show once there's room. */}
+      <div className="mt-14 flex flex-row items-center justify-center gap-2 sm:gap-6 lg:gap-10">
         {/* Coin */}
-        <MountOnView className="h-28 w-28 shrink-0 sm:h-40 sm:w-40 lg:h-48 lg:w-48">
+        <MountOnView className="h-16 w-16 shrink-0 sm:h-40 sm:w-40 lg:h-48 lg:w-48">
           <ModelViewer
             src="/screens/coin.glb"
             alt={r.coinLabel}
@@ -253,31 +260,31 @@ function RewardsPanel({ j }: { j: Content["journey"] }) {
         </MountOnView>
 
         {/* Bidirectional arrows */}
-        <div className="flex shrink-0 flex-col items-center gap-3">
+        <div className="flex shrink-0 flex-col items-center gap-1.5 sm:gap-3">
           <div className="flex items-center gap-2 text-muted">
-            <span className="text-[11px] font-semibold uppercase tracking-wider">
+            <span className="hidden text-[11px] font-semibold uppercase tracking-wider sm:inline">
               {r.spend}
             </span>
             <ExchangeArrow />
           </div>
           <div className="flex items-center gap-2 text-muted">
             <ExchangeArrow className="rotate-180" />
-            <span className="text-[11px] font-semibold uppercase tracking-wider">
+            <span className="hidden text-[11px] font-semibold uppercase tracking-wider sm:inline">
               {r.earn}
             </span>
           </div>
         </div>
 
         {/* Supplements */}
-        <div className="flex shrink-0 gap-3 sm:gap-4">
-          <div className="h-28 w-20 shrink-0 sm:h-40 sm:w-28 lg:h-48 lg:w-36">
+        <div className="flex shrink-0 gap-2 sm:gap-4">
+          <div className="h-16 w-12 shrink-0 sm:h-40 sm:w-28 lg:h-48 lg:w-36">
             <ModelViewer
               src="/screens/protein_powder.glb"
               alt={r.supplementLabel}
               className="h-full w-full"
             />
           </div>
-          <div className="h-28 w-20 shrink-0 sm:h-40 sm:w-28 lg:h-48 lg:w-36">
+          <div className="h-16 w-12 shrink-0 sm:h-40 sm:w-28 lg:h-48 lg:w-36">
             <ModelViewer
               src="/screens/protein_sachet.glb"
               alt={r.supplementLabel}
@@ -333,13 +340,13 @@ function FlowArrow({ down = false }: { down?: boolean }) {
 function ExchangeArrow({ className = "" }: { className?: string }) {
   return (
     <svg
-      width="30"
-      height="30"
+      width="18"
+      height="18"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.6"
-      className={`shrink-0 ${className}`}
+      className={`h-[18px] w-[18px] shrink-0 sm:h-[30px] sm:w-[30px] ${className}`}
     >
       <path d="M5 12h14M13 6l6 6-6 6" />
     </svg>
