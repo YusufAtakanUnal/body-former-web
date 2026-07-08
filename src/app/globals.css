@@ -109,6 +109,44 @@ body {
   animation: tab-nudge 1.4s ease-in-out infinite;
 }
 
+/* Flaming CTA — a slowly shifting fire gradient plus a pulsing ember glow. */
+@keyframes flame-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+@keyframes flame-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 18px 0 rgba(255, 106, 0, 0.55),
+      0 0 40px 4px rgba(255, 45, 0, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 30px 6px rgba(255, 150, 20, 0.75),
+      0 0 64px 14px rgba(255, 60, 0, 0.45);
+  }
+}
+.btn-flame {
+  background: linear-gradient(
+    90deg,
+    #ff4d00,
+    #ff9d00,
+    #ff2d00,
+    #ffb300,
+    #ff4d00
+  );
+  background-size: 300% 300%;
+  animation:
+    flame-shift 4s ease-in-out infinite,
+    flame-glow 2.2s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -126,6 +164,11 @@ body {
   }
   .tab-nudge {
     animation: none;
+  }
+  .btn-flame {
+    animation: none;
+    background-position: 50% 50%;
+    box-shadow: 0 0 24px 4px rgba(255, 100, 0, 0.5);
   }
 }
 

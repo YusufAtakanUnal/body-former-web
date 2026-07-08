@@ -113,6 +113,21 @@ export function Waitlist() {
           />
           <p className="mt-3 text-xs text-white/45">{w.note}</p>
         </div>
+
+        <div className="mx-auto mt-12 max-w-md border-t border-white/10 pt-10">
+          <a
+            href="https://sites.google.com/view/bodyformer-form"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-flame inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold text-white transition-transform hover:-translate-y-0.5"
+          >
+            <span aria-hidden>🔥</span>
+            {w.zeroDayCta}
+          </a>
+          <p className="mx-auto mt-3 max-w-xs text-xs text-white/45">
+            {w.zeroDayNote}
+          </p>
+        </div>
       </Reveal>
     </section>
   );

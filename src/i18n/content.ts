@@ -129,6 +129,9 @@ export const content = {
       cta: "Listeye katıl",
       success: "Teşekkürler! Listeye eklendin.",
       note: "Formlar şu an demo amaçlıdır.",
+      zeroDayCta: "Become Zero Day Builder",
+      zeroDayNote:
+        "Formu doldurarak bizi ilk andan desteklediğin için başka kimsenin elde edemeyeceği bir unvan kazan.",
     },
     faq: {
       eyebrow: "02 · SSS",
@@ -300,6 +303,9 @@ export const content = {
       cta: "Join the list",
       success: "Thanks! You're on the list.",
       note: "Forms are currently for demo purposes.",
+      zeroDayCta: "Become Zero Day Builder",
+      zeroDayNote:
+        "Fill out the form to support us from day one and earn a title no one else can get.",
     },
     faq: {
       eyebrow: "02 · FAQ",
