@@ -52,7 +52,7 @@ export const content = {
         ],
         photoLabel: "Giriş fotoğrafı",
         aiEngine: "AI ENGINE",
-        maskLabel: "Normal map · silüet",
+        maskLabel: "Normal Maps",
         output: "3D Model",
         measurementsTitle: "15 Bölge Ölçümü",
         measurements: [
@@ -226,7 +226,7 @@ export const content = {
         ],
         photoLabel: "Input photo",
         aiEngine: "AI ENGINE",
-        maskLabel: "Normal map · silhouette",
+        maskLabel: "Normal Maps",
         output: "3D Model",
         measurementsTitle: "15 Region Measurements",
         measurements: [

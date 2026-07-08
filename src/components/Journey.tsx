@@ -28,7 +28,8 @@ const NEXT_TAB: Record<Tab, Tab | null> = {
 // in animation-duration is imperceptible tick-to-tick (a big jump every
 // update looks like a stutter/frame drop).
 const NUDGE_START_S = 1.3;
-const NUDGE_FLOOR_S = 0.45;
+// Max bounce speed (1 / duration) reduced 30%: 0.45 / (1 - 0.3).
+const NUDGE_FLOOR_S = 0.643;
 const NUDGE_RAMP_MS = 30000;
 const NUDGE_TICK_MS = 100;
 
@@ -162,7 +163,7 @@ function ScanPanel({ j }: { j: Content["journey"] }) {
       <Reveal>
         <TwinPipeline
           photos={YG.map((i) => `/screens/yg${i}.jpeg`)}
-          normals={YG.map((i) => `/screens/yg${i}_cut.png`)}
+          normals={YG.map((i) => `/screens/yg${i}_nm.webp`)}
           video="/screens/modelvideo.mp4"
           labels={{
             input: s.photoLabel,
@@ -259,17 +260,19 @@ function RewardsPanel({ j }: { j: Content["journey"] }) {
           />
         </MountOnView>
 
-        {/* Bidirectional arrows */}
-        <div className="flex shrink-0 flex-col items-center gap-1.5 sm:gap-3">
-          <div className="flex items-center gap-2 text-muted">
-            <span className="hidden text-[11px] font-semibold uppercase tracking-wider sm:inline">
+        {/* Bidirectional arrows — label stacks above/below the arrow on
+            mobile (wraps within a narrow column) so it adds height, not
+            width; sits beside the arrow once there's room from sm+. */}
+        <div className="flex shrink-0 flex-col items-center gap-2.5 sm:gap-3">
+          <div className="flex flex-col items-center gap-0.5 sm:flex-row sm:gap-2">
+            <span className="max-w-[58px] text-center text-[8px] font-semibold leading-tight text-muted sm:max-w-none sm:text-[11px] sm:uppercase sm:tracking-wider">
               {r.spend}
             </span>
             <ExchangeArrow />
           </div>
-          <div className="flex items-center gap-2 text-muted">
+          <div className="flex flex-col items-center gap-0.5 sm:flex-row sm:gap-2">
             <ExchangeArrow className="rotate-180" />
-            <span className="hidden text-[11px] font-semibold uppercase tracking-wider sm:inline">
+            <span className="max-w-[58px] text-center text-[8px] font-semibold leading-tight text-muted sm:max-w-none sm:text-[11px] sm:uppercase sm:tracking-wider">
               {r.earn}
             </span>
           </div>

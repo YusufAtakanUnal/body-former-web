@@ -128,9 +128,12 @@ export default function TwinPipeline({
 
         <Arrow />
 
-        {/* Stage 3 — 3D model output (white-blended, floats) */}
+        {/* Stage 3 — 3D model output (white-blended, floats). The source
+            video frames the figure a bit small, so scale it up slightly
+            (clipped by the overflow-hidden wrapper) to match the visual
+            weight of the other two stages. */}
         <div className="min-w-0 flex-1 sm:w-40 sm:flex-none md:w-52 lg:w-full lg:max-w-[240px]">
-          <div className="aspect-[3/4] w-full">
+          <div className="aspect-[3/4] w-full overflow-hidden">
             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <video
               ref={videoRef}
@@ -140,7 +143,7 @@ export default function TwinPipeline({
               muted
               playsInline
               onLoadedMetadata={onMeta}
-              className="h-full w-full object-contain"
+              className="h-full w-full scale-[1.12] object-contain"
             />
           </div>
           <p className="mt-1.5 text-center text-[10px] font-semibold sm:mt-3 sm:text-sm">
