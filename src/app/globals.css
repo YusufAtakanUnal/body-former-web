@@ -94,19 +94,21 @@ body {
   animation: fade-in-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Gentle upward bob to nudge the user toward the next tab. */
+/* Upward bob to nudge the user toward the next tab — grows as it lifts,
+   shrinks back as it lands. JS ramps animation-duration down over time to
+   make it bob faster the longer it waits for a click. */
 @keyframes tab-nudge {
   0%,
   70%,
   100% {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
   35% {
-    transform: translateY(-5px);
+    transform: translateY(-7px) scale(1.14);
   }
 }
 .tab-nudge {
-  animation: tab-nudge 1.4s ease-in-out infinite;
+  animation: tab-nudge 1.3s ease-in-out infinite;
 }
 
 /* Flaming CTA — a slowly shifting fire gradient plus a pulsing ember glow. */

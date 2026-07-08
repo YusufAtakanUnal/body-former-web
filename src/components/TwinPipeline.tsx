@@ -63,14 +63,15 @@ export default function TwinPipeline({
 
   return (
     <div className={className}>
-      {/* Hovering anywhere in the pipeline pauses the auto-cycle. */}
+      {/* Always a horizontal row — never stacks, even on phones. Swipe if it
+          doesn't fully fit the viewport. Hovering pauses the auto-cycle. */}
       <div
-        className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:justify-center sm:gap-2 lg:gap-4"
+        className="flex flex-row items-center justify-start gap-2 overflow-x-auto px-1 py-1 sm:justify-center lg:gap-4"
         onMouseEnter={() => (pausedRef.current = true)}
         onMouseLeave={() => (pausedRef.current = false)}
       >
         {/* Stage 1 — input photo, auto-cycling */}
-        <div className="w-full max-w-[240px]">
+        <div className="w-28 shrink-0 sm:w-40 md:w-52 lg:w-full lg:max-w-[240px]">
           <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl shadow-[0_24px_50px_-24px_rgba(0,0,0,0.5)]">
             {photos.map((src, idx) => (
               // eslint-disable-next-line @next/next/no-img-element
@@ -105,7 +106,7 @@ export default function TwinPipeline({
         <Arrow label={labels.aiEngine} />
 
         {/* Stage 2 — AI normal map (transparent, floats) */}
-        <div className="w-full max-w-[240px]">
+        <div className="w-28 shrink-0 sm:w-40 md:w-52 lg:w-full lg:max-w-[240px]">
           <div className="relative aspect-[3/4] w-full">
             {normals.map((src, idx) => (
               // eslint-disable-next-line @next/next/no-img-element
@@ -128,7 +129,7 @@ export default function TwinPipeline({
         <Arrow />
 
         {/* Stage 3 — 3D model output (white-blended, floats) */}
-        <div className="w-full max-w-[240px]">
+        <div className="w-28 shrink-0 sm:w-40 md:w-52 lg:w-full lg:max-w-[240px]">
           <div className="aspect-[3/4] w-full">
             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <video
@@ -155,18 +156,18 @@ function Arrow({ label }: { label?: string }) {
   return (
     <div className="flex shrink-0 flex-col items-center justify-center gap-1 text-muted">
       {label && (
-        <span className="text-[10px] font-semibold uppercase tracking-wider">
+        <span className="text-center text-[10px] font-semibold uppercase tracking-wider">
           {label}
         </span>
       )}
       <svg
-        width="28"
-        height="28"
+        width="22"
+        height="22"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
         strokeWidth="1.6"
-        className="rotate-90 sm:rotate-0"
+        className="shrink-0 sm:h-7 sm:w-7"
       >
         <path d="M5 12h14M13 6l6 6-6 6" />
       </svg>

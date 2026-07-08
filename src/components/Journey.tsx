@@ -22,6 +22,13 @@ const NEXT_TAB: Record<Tab, Tab | null> = {
   rewards: null,
 };
 
+// The nudge bob starts slow and ramps up the longer it's been inviting a
+// click, so it gets harder to ignore the longer the user waits.
+const NUDGE_START_S = 1.3;
+const NUDGE_FLOOR_S = 0.45;
+const NUDGE_DECAY = 0.88;
+const NUDGE_TICK_MS = 500;
+
 /**
  * The single dynamic "How it works" section — the page centerpiece. Three tabs
  * tell the whole product in one place: Scan (input → 3D model + 15 measurements),
@@ -33,12 +40,30 @@ export default function Journey() {
   const { t } = useLang();
   const j = t.journey;
   const [tab, setTab] = useState<Tab>("scan");
+  const [nudgeSec, setNudgeSec] = useState(NUDGE_START_S);
+  const nextTab = NEXT_TAB[tab];
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "scan", label: j.tabs.scan },
     { id: "compete", label: j.tabs.compete },
     { id: "rewards", label: j.tabs.rewards },
   ];
+
+  // Restart the ramp — slow bob at first, accelerating the longer the target
+  // tab has been waiting for a click — every time the target itself changes.
+  useEffect(() => {
+    if (!nextTab) return;
+    const prefersReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
+    setNudgeSec(NUDGE_START_S);
+    const id = window.setInterval(() => {
+      setNudgeSec((s) => Math.max(NUDGE_FLOOR_S, s * NUDGE_DECAY));
+    }, NUDGE_TICK_MS);
+    return () => window.clearInterval(id);
+  }, [nextTab]);
 
   // On the Rewards (last) tab, if the user lingers ~5s without scrolling, glide
   // them down to the FAQ — the next section. Any real scroll/keypress cancels.
@@ -83,7 +108,12 @@ export default function Journey() {
                   tab === tb.id
                     ? "bg-foreground text-white"
                     : "text-muted hover:text-foreground"
-                } ${NEXT_TAB[tab] === tb.id ? "tab-nudge" : ""}`}
+                } ${nextTab === tb.id ? "tab-nudge" : ""}`}
+                style={
+                  nextTab === tb.id
+                    ? { animationDuration: `${nudgeSec}s` }
+                    : undefined
+                }
               >
                 {tb.label}
               </button>
@@ -160,12 +190,14 @@ function CompetePanel({ j }: { j: Content["journey"] }) {
         <h3 className="text-2xl font-bold tracking-tight">{c.title}</h3>
         <p className="mt-3 text-sm leading-relaxed text-muted">{c.lead}</p>
       </div>
-      <div className="mt-12 grid gap-4 md:grid-cols-3">
+      {/* Always a horizontal row — never stacks, even on phones. Swipe if it
+          doesn't fully fit the viewport. */}
+      <div className="mt-12 flex justify-start gap-4 overflow-x-auto px-1 py-1 sm:justify-center">
         {c.modes.map((m, idx) => (
           <Reveal
             key={m.k}
             delay={idx * 80}
-            className="rounded-2xl border border-line bg-surface p-7"
+            className="w-56 shrink-0 rounded-2xl border border-line bg-surface p-6 sm:w-64 sm:p-7"
           >
             <span className="font-mono text-sm text-muted">{m.k}</span>
             <h4 className="mt-6 text-xl font-bold">{m.t}</h4>
@@ -206,11 +238,12 @@ function RewardsPanel({ j }: { j: Content["journey"] }) {
         <p className="mt-3 text-sm leading-relaxed text-muted">{r.lead}</p>
       </div>
 
-      {/* Two-way exchange, models floating on the page (no cards):
-          spend Coin → supplements, and back. */}
-      <div className="mt-14 flex flex-col items-center justify-center gap-6 lg:flex-row lg:gap-10">
+      {/* Two-way exchange, models floating on the page (no cards): spend Coin
+          → supplements, and back. Always a horizontal row — never stacks,
+          even on phones. Swipe if it doesn't fully fit the viewport. */}
+      <div className="mt-14 flex flex-row items-center justify-start gap-4 overflow-x-auto px-1 py-1 sm:justify-center sm:gap-6 lg:gap-10">
         {/* Coin */}
-        <MountOnView className="h-44 w-44 shrink-0 sm:h-48 sm:w-48">
+        <MountOnView className="h-28 w-28 shrink-0 sm:h-40 sm:w-40 lg:h-48 lg:w-48">
           <ModelViewer
             src="/screens/coin.glb"
             alt={r.coinLabel}
@@ -225,10 +258,10 @@ function RewardsPanel({ j }: { j: Content["journey"] }) {
             <span className="text-[11px] font-semibold uppercase tracking-wider">
               {r.spend}
             </span>
-            <ExchangeArrow className="rotate-90 lg:rotate-0" />
+            <ExchangeArrow />
           </div>
           <div className="flex items-center gap-2 text-muted">
-            <ExchangeArrow className="-rotate-90 lg:rotate-180" />
+            <ExchangeArrow className="rotate-180" />
             <span className="text-[11px] font-semibold uppercase tracking-wider">
               {r.earn}
             </span>
@@ -236,15 +269,15 @@ function RewardsPanel({ j }: { j: Content["journey"] }) {
         </div>
 
         {/* Supplements */}
-        <div className="flex shrink-0 gap-4">
-          <div className="h-44 w-32 sm:h-48 sm:w-36">
+        <div className="flex shrink-0 gap-3 sm:gap-4">
+          <div className="h-28 w-20 shrink-0 sm:h-40 sm:w-28 lg:h-48 lg:w-36">
             <ModelViewer
               src="/screens/protein_powder.glb"
               alt={r.supplementLabel}
               className="h-full w-full"
             />
           </div>
-          <div className="h-44 w-32 sm:h-48 sm:w-36">
+          <div className="h-28 w-20 shrink-0 sm:h-40 sm:w-28 lg:h-48 lg:w-36">
             <ModelViewer
               src="/screens/protein_sachet.glb"
               alt={r.supplementLabel}
